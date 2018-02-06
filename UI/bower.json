@@ -1,0 +1,20 @@
+{
+  "name": "smart-market",
+  "authors": [
+    "Chinaza Egbo <chinaza@zhaptek.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
