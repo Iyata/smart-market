@@ -499,3 +499,17 @@ footer.sticky-footer {
     width: calc(100% - 55px);
   }
 }
+
+.breadcrumb-item>a {
+  color: #d714ca;
+}
+
+.page-item.active .page-link {
+  background-color: #d714ca;
+  border-color: #d714ca;
+}
+
+.btn-primary {
+  background: #d714ca;
+  border-color: #d714ca;
+}

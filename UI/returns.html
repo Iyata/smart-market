@@ -28,7 +28,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-dashboard"></i>
                         <span class="nav-link-text">Dashboard</span>
@@ -45,15 +45,15 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Categories">
                     <a class="nav-link" href="#">
-                        <i class="fa fa-fw fa-link"></i>
+                        <i class="fa fa-navicon"></i>
                         <span class="nav-link-text">Categories</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Manage users">
                     <a class="nav-link" href="#">
-                        <i class="fa fa-fw fa-link"></i>
+                        <i class="fa fa-female"></i>
                         <span class="nav-link-text">Manage Users</span>
                     </a>
                 </li>
@@ -105,7 +105,7 @@
                                     <th>Name</th>
                                     <th>Quantity</th>
                                     <th>Buyer's name</th>
-                                    <th>Date</th>
+                                    <th>Date returned</th>
                                     <th>Edit</th>
                                 </tr>
                             </thead>
@@ -115,7 +115,7 @@
                                     <th>Name</th>
                                     <th>Quantity</th>
                                     <th>Buyer's name</th>
-                                    <th>Date</th>
+                                    <th>Date returned</th>
                                     <th>Edit</th>
                                 </tr>
                             </tfoot>
@@ -139,6 +139,9 @@
             </div>
         </div>
         <!-- /.container-fluid-->
+        <button class="fab btn btn-primary" data-toggle="modal" data-target="#productModal">
+            <i class="fa fa-plus"></i>
+        </button>
         <!-- /.content-wrapper-->
         <footer class="sticky-footer">
             <div class="container">

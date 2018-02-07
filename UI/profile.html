@@ -87,64 +87,40 @@
         <div class="container-fluid">
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="#">Dashboard</a>
+                <li class="breadcrumb-item active">
+                    <a href="#">Profile</a>
                 </li>
-                <li class="breadcrumb-item active">Sales</li>
             </ol>
-            <!-- Example DataTables Card-->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fa fa-table"></i> Sales made</div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Transaction Id</th>
-                                    <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Selling Price</th>
-                                    <th>Buyer's name</th>
-                                    <th>Date</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Transaction Id</th>
-                                    <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Selling Price</th>
-                                    <th>Buyer's name</th>
-                                    <th>Date</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>61</td>
-                                    <td>
-                                        <button class="btn btn-link">
-                                            <i class="fa fa-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+            <div>
+                <form style="width:80%;margin:0 auto; padding-bottom: 30px">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Full Name</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">New Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Confirm Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div style="text-align:right">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
+
         </div>
-        <!-- /.container-fluid-->
-        <button class="fab btn btn-primary" data-toggle="modal" data-target="#productModal">
-            <i class="fa fa-plus"></i>
-        </button>
         <!-- /.content-wrapper-->
         <footer class="sticky-footer">
             <div class="container">
