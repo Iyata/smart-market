@@ -129,7 +129,7 @@
                                     <td>61</td>
                                     <td>2011/04/25</td>
                                     <td>
-                                        <button class="btn btn-link">
+                                        <button class="btn btn-link" data-toggle="modal" data-target="#productModal">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                     </td>
@@ -174,10 +174,45 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        The Form
+                        <form>
+                            <div class="form-group">
+                                <label for="productName">Product name</label>
+                                <input type="text" class="form-control" id="productName" aria-describedby="emailHelp" placeholder="Enter Product Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Description</label>
+                                <input type="text" class="form-control" id="desc" aria-describedby="emailHelp" placeholder="Enter Product Description">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="Enter Product Quantity" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="costPrice">Cost Price</label>
+                                <input type="number" class="form-control" id="costPrice" placeholder="Enter Cost Price" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="sellingPrice">Selling Price</label>
+                                <input type="number" class="form-control" id="sellingPrice" placeholder="Enter Selling Price" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select class="custom-select" id="category">
+                                    <option>Fashion</option>
+                                    <option>Tech gadgets</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dateAdded">Date Added</label>
+                                <input type="date" class="form-control" id="dateAdded" placeholder="Enter date added">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-link" id="addMore">+ Add more items</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary">Add Product</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>

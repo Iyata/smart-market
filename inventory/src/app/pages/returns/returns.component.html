@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Returns</li>
+  </ol>
+  <!-- Example DataTables Card-->
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-table"></i> Goods returned</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Transaction Id</th>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Buyer's name</th>
+              <th>Date returned</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Transaction Id</th>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Buyer's name</th>
+              <th>Date returned</th>
+              <th>Edit</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr>
+              <td>Tiger Nixon</td>
+              <td>System Architect</td>
+              <td>Edinburgh</td>
+              <td>61</td>
+              <td>61</td>
+              <td>
+                <button class="btn btn-link">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container-fluid-->
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal">
+  <i class="fa fa-plus"></i>
+</button>
+
+<!-- Sales modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="returnsModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New return</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="transactionId">Transaction Id</label>
+            <input name="" type="text" class="form-control" name="transactionId" id="transactionId" />
+          </div>
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input name="" type="text" class="form-control" name="productName" id="productName" />
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity Returned</label>
+            <input name="" type="number" class="form-control" name="quantity" id="quantity" />
+          </div>
+          <div class="form-group">
+            <label for="dateReturned">Date Returned</label>
+            <input name="" type="date" class="form-control" id="dateReturned" placeholder="Enter date returned">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Return Item</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

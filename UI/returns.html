@@ -139,7 +139,7 @@
             </div>
         </div>
         <!-- /.container-fluid-->
-        <button class="fab btn btn-primary" data-toggle="modal" data-target="#productModal">
+        <button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal">
             <i class="fa fa-plus"></i>
         </button>
         <!-- /.content-wrapper-->
@@ -154,20 +154,39 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fa fa-angle-up"></i>
         </a>
-        <!-- Logout Modal-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Sales modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="returnsModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
+                        <h5 class="modal-title">New return</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="transactionId">Transaction Id</label>
+                                <input name="" type="text" class="form-control" name="transactionId" id="transactionId" />
+                            </div>
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input name="" type="text" class="form-control" name="productName" id="productName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity Returned</label>
+                                <input name="" type="number" class="form-control" name="quantity" id="quantity" />
+                            </div>
+                            <div class="form-group">
+                                <label for="dateReturned">Date Returned</label>
+                                <input name="" type="date" class="form-control" id="dateReturned" placeholder="Enter date returned">
+                            </div>
+                        </form>
+                    </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
+                        <button type="button" class="btn btn-primary">Return Item</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
