@@ -6,16 +6,23 @@
 
     <form>
       <div class="form-group">
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <span class="cd-error">{{loginError}}</span>
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <input type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" #email="ngModel" [(ngModel)]="loginModel.email"
+          name="email" class="form-control" id="email" placeholder="Enter email" name="email">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="password" placeholder="Enter Password" #password="ngModel" [(ngModel)]="loginModel.password"
+          name="password">
       </div>
       <div style="text-align: right;">
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary" (click)="login()">Login
+          <i *ngIf="isLoading" class="fa fa-spin fa-spinner"></i>
+        </button>
       </div>
       <p align="center">Forgot Password?
-        <a href="#">Reset Here</a>
+        <a href="/reset">Reset Here</a>
       </p>
     </form>
   </div>

@@ -12,21 +12,14 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routes: Routes = [
   {
-    path: '',
-    component: LoginComponent
-  },
-  {
-    path: 'reset',
-    component: ResetComponent
-  },
-  {
     path: 'account',
     component: DashboardComponent,
-    canActivate: [],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'profile',
@@ -37,33 +30,36 @@ const routes: Routes = [
   {
     path: 'categories',
     component: DashboardComponent,
-    canActivate: [],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
-        component: CategoriesComponent
+        component: CategoriesComponent,
+        pathMatch: 'full'
       }
     ]
   },
   {
     path: 'manage-users',
     component: DashboardComponent,
-    canActivate: [],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
-        component: ManageUsersComponent
+        component: ManageUsersComponent,
+        pathMatch: 'full'
       }
     ]
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'products',
-        component: ProductsComponent
+        component: ProductsComponent,
+        pathMatch: 'full'
       },
       {
         path: 'sales',
@@ -76,7 +72,19 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
-  }
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'reset',
+    component: ResetComponent
+  },
+  {
+    path: '',
+    component: LoginComponent
+  },
 ];
 
 @NgModule({

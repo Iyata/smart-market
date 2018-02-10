@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -14,7 +15,11 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 
+import { AuthenticationService } from './services/authentication.service';
+import { AuthGuard } from './guards/auth.guard';
+
 import * as firebase from 'firebase';
+import { LoadingComponent } from './components/loading/loading.component';
 
 const config = {
   apiKey: 'AIzaSyDWjZBpKhkE0Tu1XdZbOn7vF_tUqcaA2vE',
@@ -39,13 +44,19 @@ firebase.initializeApp(config);
     ReturnsComponent,
     CategoriesComponent,
     ManageUsersComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

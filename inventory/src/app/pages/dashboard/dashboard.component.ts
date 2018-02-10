@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
+import { AuthenticationService } from '../../services/authentication.service';
 
 declare var $: any;
 
@@ -10,7 +13,9 @@ declare var $: any;
 
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  isLoading = false;
+
+  constructor(public authentication: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     $(document).ready(function () {
@@ -59,6 +64,19 @@ export class DashboardComponent implements OnInit {
         event.preventDefault();
       });
     });
+  }
+
+  logout() {
+    this.isLoading = true;
+    this.authentication.signOut()
+      .then(() => {
+        this.router.navigateByUrl('/');
+        this.isLoading = false;
+      })
+      .catch(error => {
+        console.log(error);
+        this.isLoading = false;
+      });
   }
 
 }
