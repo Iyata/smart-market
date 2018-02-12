@@ -6,7 +6,7 @@
     </li>
     <li class="breadcrumb-item active">Products</li>
   </ol>
-  <!-- Example DataTables Card-->
+
   <div class="card mb-3">
     <div class="card-header">
       <i class="fa fa-table"></i> Products in stock</div>
@@ -36,19 +36,19 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
+            <tr *ngFor="let product of products">
+              <td>{{product.name}}</td>
+              <td>{{product.desc}}</td>
+              <td>{{product.quantity}}</td>
+              <td>{{product.sellingPrice}}</td>
+              <td>{{product.category}}</td>
               <td>
-                <button class="btn btn-link" data-toggle="modal" data-target="#productModal">
+                <button class="btn btn-link" data-toggle="modal" data-target="#productModal" (click)="showEditModal(product)">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
               <td>
-                <button class="btn btn-link">
+                <button class="btn btn-link" (click)="deleteProduct(product)">
                   <i class="fa fa-trash"></i>
                 </button>
               </td>
@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#productModal">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#productModal" (click)="showAddModal()">
   <i class="fa fa-plus"></i>
 </button>
 
@@ -78,42 +78,58 @@
         <form>
           <div class="form-group">
             <label for="productName">Product name</label>
-            <input type="text" class="form-control" id="productName" aria-describedby="emailHelp" placeholder="Enter Product Name">
+            <input type="text" class="form-control" id="productName" placeholder="Enter Product Name" name="productName" #productName="ngModel"
+              [(ngModel)]="productModel.name" minlength="3" pattern="^[A-Za-z\s\d]+$" required>
+            <span class="cd-error" *ngIf="productName.invalid  && (productName.dirty || productName.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="desc">Description</label>
-            <input type="text" class="form-control" id="desc" aria-describedby="emailHelp" placeholder="Enter Product Description">
+            <input type="text" class="form-control" id="desc" name="productDesc" placeholder="Enter Product Description" #productDesc="ngModel"
+              [(ngModel)]="productModel.desc" minlength="5" pattern="^\w+$">
+            <span class="cd-error" *ngIf="productDesc.invalid  && (productDesc.dirty || productDesc.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="quantity">Quantity</label>
-            <input type="number" class="form-control" id="quantity" placeholder="Enter Product Quantity" min="0">
+            <input type="number" class="form-control" id="quantity" placeholder="Enter Product Quantity" min="0" name="quantity" #productQuantity="ngModel"
+              [(ngModel)]="productModel.quantity" required>
+            <span class="cd-error" *ngIf="productQuantity.invalid  && (productQuantity.dirty || productQuantity.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="costPrice">Cost Price</label>
-            <input type="number" class="form-control" id="costPrice" placeholder="Enter Cost Price" min="0">
+            <input type="number" class="form-control" id="costPrice" placeholder="Enter Cost Price" min="0" name="cost" #productCost="ngModel"
+              [(ngModel)]="productModel.costPrice" required>
+            <span class="cd-error" *ngIf="productCost.invalid  && (productCost.dirty || productCost.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="sellingPrice">Selling Price</label>
-            <input type="number" class="form-control" id="sellingPrice" placeholder="Enter Selling Price" min="0">
+            <input type="number" class="form-control" id="sellingPrice" placeholder="Enter Selling Price" min="0" name="price" #productPrice="ngModel"
+              [(ngModel)]="productModel.sellingPrice" required>
+            <span class="cd-error" *ngIf="productPrice.invalid  && (productPrice.dirty || productPrice.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="category">Category</label>
-            <select class="custom-select" id="category">
-              <option>Fashion</option>
-              <option>Tech gadgets</option>
+            <select class="custom-select" id="category" name="category" #productCategory="ngModel" [(ngModel)]="productModel.category"
+              required>
+              <option value="fashion" selected>Fashion</option>
             </select>
+            <span class="cd-error" *ngIf="productCategory.invalid  && (productCategory.dirty || productCategory.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="dateAdded">Date Added</label>
-            <input type="date" class="form-control" id="dateAdded" placeholder="Enter date added">
+            <input type="date" class="form-control" id="dateAdded" placeholder="Enter date added" name="dateAdded" #productDateAdded="ngModel"
+              [(ngModel)]="productModel.dateAdded">
+            <span class="cd-error" *ngIf="productDateAdded.invalid && (productDateAdded.dirty || productDateAdded.touched)">Invalid field</span>
           </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-link" id="addMore">+ Add more items</button>
+          <div class="form-group" *ngIf="errMessage!=''">
+            <span class="cd-error">{{errMessage}}</span>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add Product</button>
+        <button type="button" class="btn btn-primary" [disabled]="(productName.invalid) || (productDesc.invalid  && (productDesc.dirty || productDesc.touched)) || productQuantity.invalid || productCost.invalid || productPrice.invalid || productCategory.invalid || (productDateAdded.invalid && (productDateAdded.dirty || productDateAdded.touched))"
+          (click)="manageProduct()">{{modalState == 'add'?'Add Product':'Edit Product'}}
+          <i *ngIf="isLoading" class="fa fa-spin fa-spinner"></i>
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

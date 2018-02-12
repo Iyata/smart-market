@@ -38,6 +38,7 @@ export class AuthenticationService {
         .then((snapshot) => {
           const user = snapshot.val();
           resolve(user);
+          localStorage.setItem('user', JSON.stringify(user));
           // ...
         })
         .catch(error => reject(error));

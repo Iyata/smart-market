@@ -16,6 +16,10 @@ import { ManageUsersComponent } from './pages/manage-users/manage-users.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 
 import { AuthenticationService } from './services/authentication.service';
+import { CategoriesManagementService } from './services/categories-management.service';
+import { ProductsManagementService } from './services/products-management.service';
+import { ReturnsManagementService } from './services/returns-management.service';
+import { SalesManagementService } from './services/sales-management.service';
 import { AuthGuard } from './guards/auth.guard';
 
 import * as firebase from 'firebase';
@@ -55,6 +59,10 @@ firebase.initializeApp(config);
   ],
   providers: [
     AuthenticationService,
+    CategoriesComponent,
+    ProductsManagementService,
+    ReturnsManagementService,
+    SalesManagementService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

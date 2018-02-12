@@ -8,7 +8,7 @@ export class ProductsManagementService {
   constructor() { }
 
 
-  public list(): Promise<boolean> {
+  public list(): Promise<any> {
     return new Promise((resolve, reject) => {
       firebase.database().ref('products').once('value')
         .then((snapshot) => {
@@ -20,16 +20,20 @@ export class ProductsManagementService {
 
   public store(product): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('products').push({
-        name: product.name,
-        description: product.description,
-        quantity: product.quantity,
-        costPrice: product.costPrice,
-        sellingPrice: product.sellingPrice,
-        category: product.category,
-        dateAdded: product.dateAdded,
-        dataModified: (new Date).getTime()
-      }, (err) => {
+      const userString: any = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      if (user.role !== 'admin' && user.role !== 'team') {
+        return reject({
+          code: 403,
+          message: 'You do not have permission to perform this action'
+        });
+      }
+
+      product.uid = user.uid;
+      product.dateCreated = (new Date).getTime();
+      product.dataModified = (new Date).getTime();
+
+      firebase.database().ref('products').push(product, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -41,14 +45,24 @@ export class ProductsManagementService {
 
   public update(product): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('products/' + product.id).set({
-        name: product.name,
-        description: product.description,
-        quantity: product.quantity,
-        costPrice: product.costPrice,
-        sellingPrice: product.sellingPrice,
-        category: product.category,
-        dateAdded: product.dateAdded,
+      const userString: any = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      if (user.role !== 'admin' && user.role !== 'team') {
+        return reject({
+          code: 403,
+          message: 'You do not have permission to perform this action'
+        });
+      }
+
+      firebase.database().ref('products/' + product.key).set({
+        name: product.name || '',
+        description: product.description || '',
+        quantity: product.quantity || 0,
+        costPrice: product.costPrice || 0,
+        sellingPrice: product.sellingPrice || 0,
+        category: product.category || '',
+        dateAdded: product.dateAdded || '',
+        uid: user.uid,
         dataModified: (new Date).getTime()
       })
         .then(() => resolve(true))
@@ -58,7 +72,16 @@ export class ProductsManagementService {
 
   public delete(product): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('products/' + product.id).remove()
+      const userString: any = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      if (user.role !== 'admin' && user.role !== 'team') {
+        return reject({
+          code: 403,
+          message: 'You do not have permission to perform this action'
+        });
+      }
+
+      firebase.database().ref('products/' + product.key).remove()
         .then(() => resolve(true))
         .catch(error => reject(error));
     });

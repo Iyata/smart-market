@@ -14,6 +14,7 @@ declare var $: any;
 export class DashboardComponent implements OnInit {
 
   isLoading = false;
+  user: any = {};
 
   constructor(public authentication: AuthenticationService, private router: Router) { }
 
@@ -64,6 +65,14 @@ export class DashboardComponent implements OnInit {
         event.preventDefault();
       });
     });
+
+    this.authentication.getProfile()
+      .then(res => {
+        this.user = res;
+      })
+      .catch(err => {
+        alert(err.message);
+      });
   }
 
   logout() {
