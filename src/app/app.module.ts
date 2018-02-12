@@ -59,7 +59,7 @@ firebase.initializeApp(config);
   ],
   providers: [
     AuthenticationService,
-    CategoriesComponent,
+    CategoriesManagementService,
     ProductsManagementService,
     ReturnsManagementService,
     SalesManagementService,

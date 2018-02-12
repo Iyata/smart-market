@@ -22,17 +22,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>2011/04/25</td>
+            <tr *ngFor="let category of categories; let i=index">
+              <td>{{category.name}}</td>
+              <td>{{category.dateCreated}}</td>
+              <td>{{category.dateModified}}</td>
               <td>
-                <button class="btn btn-link">
+                <button class="btn btn-link" data-toggle="modal" data-target="#categoriesModal" (click)="showEditModal(category)">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
               <td>
-                <button class="btn btn-link">
+                <button class="btn btn-link" (click)="deleteCategory(category)">
                   <i class="fa fa-trash"></i>
                 </button>
               </td>
@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#categoriesModal">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#categoriesModal" (click)="showAddModal()">
   <i class="fa fa-plus"></i>
 </button>
 
@@ -62,15 +62,19 @@
         <form>
           <div class="form-group">
             <label for="categoryName">Category name</label>
-            <input type="text" class="form-control" id="categoryName" aria-describedby="emailHelp" placeholder="Enter Category Name">
+            <input type="text" class="form-control" id="categoryName" placeholder="Enter Category Name" name="categoryName" #categoryName="ngModel"
+              [(ngModel)]="categoryModel.name" pattern="^[A-Za-z\s]+$" minlength="3">
+            <span class="cd-error" *ngIf="categoryName.invalid && (categoryName.touched || categoryName.dirty)">Invalid field</span>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-link" id="addMore">+ Add a new category</button>
+            <span class="cd-error" *ngIf="errMsg !== ''">{{errMsg}}</span>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add Category</button>
+        <button type="button" class="btn btn-primary" (click)="manageProduct()">Add Category
+          <i *ngIf="isLoading" class="fa fa-spin fa-spinner"></i>
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

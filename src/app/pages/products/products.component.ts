@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsManagementService } from '../../services/products-management.service';
+import { CategoriesManagementService } from '../../services/categories-management.service';
 
 @Component({
   selector: 'app-products',
@@ -26,7 +27,12 @@ export class ProductsComponent implements OnInit {
 
   modalState = 'add';
 
-  constructor(public productsManager: ProductsManagementService) { }
+  categories = [];
+
+  constructor(
+    public productsManager: ProductsManagementService,
+    public categoriesManager: CategoriesManagementService
+  ) { }
 
   ngOnInit() {
     this.listProducts();
@@ -41,6 +47,16 @@ export class ProductsComponent implements OnInit {
           data[key].key = key;
           this.products.push(data[key]);
         }
+      })
+      .catch(err => {
+        alert(err.message);
+      });
+  }
+
+  listCategories() {
+    this.categoriesManager.list()
+      .then(data => {
+        this.categories = data;
       })
       .catch(err => {
         alert(err.message);

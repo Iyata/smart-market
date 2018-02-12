@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class CategoriesManagementService {
 
   constructor() { }
 
-  public list(): Promise<boolean> {
+  public list(): Promise<any> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('/products').once('value')
+      firebase.database().ref('categories').once('value')
         .then((snapshot) => {
           resolve(snapshot.val());
         })
@@ -18,7 +19,9 @@ export class CategoriesManagementService {
   public store(category): Promise<boolean> {
     return new Promise((resolve, reject) => {
       firebase.database().ref('categories').push({
-        name: category.name
+        name: category.name,
+        dateModified: (new Date()).getTime(),
+        dateCreated: (new Date()).getTime()
       }, (err) => {
         if (err) {
           reject(err);
@@ -31,21 +34,18 @@ export class CategoriesManagementService {
 
   public update(category): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('categories/').push({
-        name: category.name
-      }, (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(true);
-        }
-      });
+      firebase.database().ref('categories/' + category.key).update({
+        name: category.name,
+        dateModified: (new Date()).getTime()
+      })
+        .then(() => resolve(true))
+        .catch(error => reject(error));
     });
   }
 
-  public delete(product): Promise<boolean> {
+  public delete(category): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('/products' + product.id).remove()
+      firebase.database().ref('categories/' + category.key).remove()
         .then(() => resolve(true))
         .catch(error => reject(error));
     });

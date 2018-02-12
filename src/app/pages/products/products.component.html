@@ -110,7 +110,7 @@
             <label for="category">Category</label>
             <select class="custom-select" id="category" name="category" #productCategory="ngModel" [(ngModel)]="productModel.category"
               required>
-              <option value="fashion" selected>Fashion</option>
+              <option *ngFor="let category of categories" value="{{category.name}}">{{category.name}}</option>
             </select>
             <span class="cd-error" *ngIf="productCategory.invalid  && (productCategory.dirty || productCategory.touched)">Invalid field</span>
           </div>

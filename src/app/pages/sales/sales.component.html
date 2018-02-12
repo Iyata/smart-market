@@ -36,13 +36,13 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>61</td>
+            <tr *ngFor="let sale of sales">
+              <td>{{sale.transactionKey}}</td>
+              <td>{{sale.name}}</td>
+              <td>{{sale.quantity}}</td>
+              <td>{{sale.sellingPrice}}</td>
+              <td>{{sale.buyerName}}</td>
+              <td>{{sale.dateSold}}</td>
               <td>
                 <button class="btn btn-link" data-toggle="modal" data-target="#salesModal">
                   <i class="fa fa-pencil"></i>
@@ -71,43 +71,57 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <datalist id="products">
+          <option *ngFor="let product of products" id="{{product.key}}" value="{{product.name}}">
+        </datalist>
+        <form *ngFor="let saleData of salesData; let i = index">
           <div class="form-group">
             <label>Choose a Product from the list:
-              <input type="search" class="form-control" list="products" name="product" id="product" />
+              <input type="search" class="form-control" list="products" id="productName" name="productName" #productName="ngModel" [(ngModel)]="salesData[i].productName"
+              />
+
             </label>
-            <datalist id="products">
-              <option value="Wristwatch">
-                <option value="Bag">
-            </datalist>
+
+            <span class="cd-error" *ngIf="productName.invalid && (productName.dirty || productName.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="quantity">Quantity</label>
-            <input type="number" class="form-control" id="quantity" placeholder="Enter product quantity" min="0">
+            <input type="number" class="form-control" id="quantity" placeholder="Enter product quantity" min="0" name="quantity" #quantity="ngModel"
+              [(ngModel)]="salesData[i].quantity">
+            <span class="cd-error" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="buyerName">Buyer's name</label>
-            <input type="text" class="form-control" id="buyerName" placeholder="Enter buyer's name">
+            <input type="text" class="form-control" id="buyerName" placeholder="Enter buyer's name" pattern="^[A-Za-z\s]+$" name="buyerName"
+              #buyerName="ngModel" [(ngModel)]="salesData[i].buyerName">
+            <span class="cd-error" *ngIf="buyerName.invalid && (buyerName.dirty || buyerName.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="buyerPhone">Buyer's phone number</label>
-            <input type="tel" class="form-control" id="buyerPhone" placeholder="Enter buyer's phone number">
+            <input type="tel" class="form-control" id="buyerPhone" placeholder="Enter buyer's phone number" minlength="9" name="buyerPhone"
+              #buyerPhone="ngModel" [(ngModel)]="salesData[i].buyerPhone">
+            <span class="cd-error" *ngIf="buyerPhone.invalid && (buyerPhone.dirty || buyerPhone.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" placeholder="Enter price">
+            <input type="number" class="form-control" id="price" placeholder="Enter price" name="price" #price="ngModel" [(ngModel)]="salesData[i].price">
+            <span class="cd-error" *ngIf="price.invalid && (price.dirty || price.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="dateSold">Date sold</label>
-            <input type="date" class="form-control" id="dateSold" placeholder="Enter date sold">
+            <input type="date" class="form-control" id="dateSold" placeholder="Enter date sold" name="dateSold" #dateSold="ngModel" [(ngModel)]="salesData[i].dateSold">
+            <span class="cd-error" *ngIf="dateSold.invalid && (dateSold.dirty || dateSold.touched)">Invalid field</span>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-link" id="addMore">+ Add more items</button>
+            <button class="btn btn-link" style="color:red" (click)="removeItem(i)">- Remove item</button>
           </div>
         </form>
+        <div class="form-group">
+          <button class="btn btn-link" id="addMore" (click)="addMore()">+ Add more items</button>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add Sale</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="makeSale()">Add Sale</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

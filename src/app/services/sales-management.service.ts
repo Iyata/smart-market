@@ -5,6 +5,10 @@ import * as firebase from 'firebase';
 @Injectable()
 export class SalesManagementService {
 
+  private i = 0;
+  private salesArray = [];
+  private transactionId = this.randomString(6);
+
   constructor() { }
 
   private randomString(length) {
@@ -16,7 +20,7 @@ export class SalesManagementService {
     return result;
   }
 
-  public list(): Promise<boolean> {
+  public list(): Promise<any> {
     return new Promise((resolve, reject) => {
       firebase.database().ref('sales').once('value')
         .then((snapshot) => {
@@ -26,25 +30,58 @@ export class SalesManagementService {
     });
   }
 
-  public store(sale): Promise<boolean> {
+  public store(sales): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref('products/' + sale.productId).transaction(product => {
-        if (product) {
-          product.quantity -= sale.quantity;
-          return firebase.database().ref('sales/' + this.randomString(6)).set({
+      this.salesArray = sales;
+      this.transactionId = this.randomString(6);
+      this.i = 0;
+
+      this.recursiveSale(sales[this.i], this.transactionId)
+        .then(res => {
+          if (res) {
+            resolve(true);
+          } else {
+            reject({
+              code: 500,
+              message: 'Transaction failed'
+            });
+          }
+        })
+        .catch(err => reject(err));
+    });
+  }
+
+  private recursiveSale(sale, transactionId): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const productRef = firebase.database().ref('products/' + sale.productId);
+
+      productRef.once('value')
+        .then(snapshot => {
+          return productRef.update({
+            quantity: snapshot.val().quantity - sale.quantity
+          });
+        })
+        .then(() => {
+          return firebase.database().ref('sales/' + transactionId).push({
             productId: sale.productId,
             name: sale.productName,
             quantity: sale.quantity,
-            sellingPrice: sale.sellingPrice,
-            buyersName: sale.buyersName,
-            dateSold: product.dateAdded,
+            sellingPrice: sale.price,
+            buyersName: sale.buyerName,
+            buyersPhone: sale.buyerPhone,
+            dateSold: sale.dateSold,
+            dataCreated: (new Date).getTime(),
             dataModified: (new Date).getTime()
           });
-        } else {
-          resolve(false);
-        }
-      })
-        .then(() => resolve(true))
+        })
+        .then(() => {
+          this.i++;
+          if (this.i < this.salesArray.length) {
+            this.recursiveSale(this.salesArray[this.i], this.transactionId);
+          } else {
+            resolve(true);
+          }
+        })
         .catch(error => reject(error));
     });
   }
