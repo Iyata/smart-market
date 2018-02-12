@@ -72,7 +72,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="manageProduct()">Add Category
+        <button type="button" class="btn btn-primary" (click)="manageProduct()">{{modalState=='add'?'Add Category':'Edit Category'}}
           <i *ngIf="isLoading" class="fa fa-spin fa-spinner"></i>
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

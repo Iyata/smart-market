@@ -29,6 +29,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   listCategories() {
+    this.categories = [];
     this.categoriesManager.list()
       .then(data => {
         // tslint:disable-next-line:forin
