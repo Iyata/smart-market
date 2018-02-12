@@ -48,7 +48,7 @@ export class AuthenticationService {
   public editProfile(user): Promise<any> {
     return new Promise((resolve, reject) => {
       const userId = firebase.auth().currentUser.uid;
-      firebase.database().ref('users/' + userId).set({
+      firebase.database().ref('users/' + userId).update({
         fullName: user.fullName
       })
         .then(() => resolve(true))
@@ -56,9 +56,14 @@ export class AuthenticationService {
     });
   }
 
-  public changePassword(newPassword): Promise<boolean> {
+  public changePassword(oldPassword, newPassword): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase.auth().currentUser.updatePassword(newPassword)
+      const userString = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      this.login({ email: user.email, password: oldPassword })
+        .then(res => {
+          return firebase.auth().currentUser.updatePassword(newPassword);
+        })
         .then(() => resolve(true))
         .catch((error) => reject(error));
     });

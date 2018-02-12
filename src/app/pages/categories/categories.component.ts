@@ -20,12 +20,16 @@ export class CategoriesComponent implements OnInit {
 
   modalState = '';
 
+  user: any = {};
+
   constructor(
     public categoriesManager: CategoriesManagementService
   ) { }
 
   ngOnInit() {
     this.listCategories();
+    const userString = localStorage.getItem('user');
+    this.user = JSON.parse(userString);
   }
 
   listCategories() {

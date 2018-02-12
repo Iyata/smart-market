@@ -9,27 +9,50 @@
   <div>
     <form style="width:80%;margin:0 auto; padding-bottom: 30px">
       <div class="form-group">
-        <label for="exampleInputEmail1">Full Name</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <label for="name">Full Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Enter full name" name="fullName" #fullName="ngModel" [(ngModel)]="profile.fullName"
+          minlength="3" pattern="^[A-Za-z\s]+$">
+        <span class="cd-error" *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)">Invalid field</span>
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" #email="ngModel" [(ngModel)]="profile.email"
+          readonly>
+      </div>
+      <div style="text-align:center">
+        <span class="cd-error" *ngIf="message1 != ''">{{message1}}</span>
+      </div>
+      <div class="form-group" style="text-align:right">
+        <button class="btn btn-primary" [disabled]="fullName.invalid && (fullName.dirty || fullName.touched)" (click)="updateData()">Update
+          <i *ngIf="isLoading1" class="fa fa-spin fa-spinner"></i>
+        </button>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" #password="ngModel"
+          [(ngModel)]="passwords.password">
+        <span class="cd-error" *ngIf="password.invalid && (password.dirty || password.touched)">Invalid field</span>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <label for="newPassword">New Password</label>
+        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" minlength="6" name="newPassword"
+          #newPassword="ngModel" [(ngModel)]="passwords.newPassword">
+        <span class="cd-error" *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)">Minimum 6 characters required</span>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">New Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword" placeholder="Enter confirm password" name="confirmPassword"
+          #confirmPassword="ngModel" [(ngModel)]="passwords.confirmPassword">
+        <span class="cd-error" *ngIf="passwords.newPassword != passwords.confirmPassword && (newPassword.dirty || newPassword.touched)">Password mismatch</span>
       </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Confirm Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      <div style="text-align:center">
+        <span class="cd-error" *ngIf="message2 != ''">{{message2}}</span>
       </div>
       <div style="text-align:right">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" [disabled]='password.errors || newPassword.errors || confirmPassword.errors' (click)="updatePassword()">Update
+          <i *ngIf="isLoading2" class="fa fa-spin fa-spinner"></i>
+        </button>
       </div>
     </form>
   </div>

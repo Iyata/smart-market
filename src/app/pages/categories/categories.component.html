@@ -17,8 +17,8 @@
               <th>Category Name</th>
               <th>Date Created</th>
               <th>Date Modified</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th *ngIf="user.role != 'management'">Edit</th>
+              <th *ngIf="user.role != 'management'">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -26,12 +26,12 @@
               <td>{{category.name}}</td>
               <td>{{category.dateCreated}}</td>
               <td>{{category.dateModified}}</td>
-              <td>
+              <td *ngIf="user.role != 'management'">
                 <button class="btn btn-link" data-toggle="modal" data-target="#categoriesModal" (click)="showEditModal(category)">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
-              <td>
+              <td *ngIf="user.role != 'management'">
                 <button class="btn btn-link" (click)="deleteCategory(category)">
                   <i class="fa fa-trash"></i>
                 </button>
@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#categoriesModal" (click)="showAddModal()">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#categoriesModal" (click)="showAddModal()" *ngIf="user.role != 'management'">
   <i class="fa fa-plus"></i>
 </button>
 

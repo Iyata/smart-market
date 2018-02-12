@@ -28,6 +28,8 @@ export class SalesComponent implements OnInit {
     dateSold: ''
   };
 
+  user: any = {};
+
   constructor(
     public productsManager: ProductsManagementService,
     public salesManager: SalesManagementService
@@ -40,7 +42,6 @@ export class SalesComponent implements OnInit {
         // tslint:disable-next-line:forin
         for (const key in data) {
           data[key].key = key;
-          console.log(data[key]);
           this.products.push(data[key]);
         }
       })
@@ -49,6 +50,9 @@ export class SalesComponent implements OnInit {
       });
 
     this.listSales();
+
+    const userString = localStorage.getItem('user');
+    this.user = JSON.parse(userString);
   }
 
   manageSale() {
@@ -79,6 +83,7 @@ export class SalesComponent implements OnInit {
       sellingPrice: '',
       dateSold: ''
     });
+    this.getSellingPrice('0');
   }
 
   listSales() {
@@ -112,6 +117,23 @@ export class SalesComponent implements OnInit {
       sellingPrice: '',
       dateSold: ''
     });
+    this.getSellingPrice((this.salesData.length - 1).toString());
+  }
+
+  getSellingPrice(i: string) {
+    setTimeout(() => {
+      console.log('#productName' + i);
+      $('#productName' + i).on('input', () => {
+        console.log(this.salesData[i].productName);
+        const opt = $('option[value="' + this.salesData[i].productName + '"]');
+        if (opt.length) {
+          const newProducts = this.products.filter((product) => {
+            return product.key === opt.attr('id');
+          });
+          this.salesData[i].sellingPrice = newProducts[0].sellingPrice;
+        }
+      });
+    }, 1000);
   }
 
   removeItem(i) {

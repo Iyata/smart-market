@@ -20,7 +20,7 @@
               <th>Quantity</th>
               <th>Buyer's name</th>
               <th>Date returned</th>
-              <th>Edit</th>
+              <th *ngIf="user.role != 'management'">Edit</th>
             </tr>
           </thead>
           <tfoot>
@@ -30,7 +30,7 @@
               <th>Quantity</th>
               <th>Buyer's name</th>
               <th>Date returned</th>
-              <th>Edit</th>
+              <th *ngIf="user.role != 'management'">Edit</th>
             </tr>
           </tfoot>
           <tbody>
@@ -40,7 +40,7 @@
               <td>{{returnedItem.quantity}}</td>
               <td>{{returnedItem.buyerName}}</td>
               <td>{{returnedItem.dateReturned}}</td>
-              <td>
+              <td *ngIf="user.role != 'management'">
                 <button class="btn btn-link" data-toggle="modal" data-target="#returnsModal" (click)="showEditModal(returnedItem)">
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -53,7 +53,7 @@
   </div>
 </div>
 <!-- /.container-fluid-->
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal" (click)="showAddModal()">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal" (click)="showAddModal()" *ngIf="user.role != 'management'">
   <i class="fa fa-plus"></i>
 </button>
 

@@ -29,6 +29,8 @@ export class ReturnsComponent implements OnInit {
     dateSold: ''
   };
 
+  user: any = {};
+
   constructor(
     public productsManager: ProductsManagementService,
     public returnsManager: ReturnsManagementService
@@ -50,6 +52,9 @@ export class ReturnsComponent implements OnInit {
       });
 
     this.listReturns();
+
+    const userString = localStorage.getItem('user');
+    this.user = JSON.parse(userString);
   }
 
   manageReturns() {

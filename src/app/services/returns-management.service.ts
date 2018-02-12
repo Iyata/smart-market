@@ -34,7 +34,14 @@ export class ReturnsManagementService {
       this.returnsArray = returns;
       this.i = 0;
 
-      this.recursiveReturns(returns[this.i], returns[this.i].transactionKey)
+      firebase.database().ref('sales/' + returns.transactionKey).once('value')
+        .then(snapshot => {
+          if (snapshot.val()) {
+            return this.recursiveReturns(returns[this.i], returns[this.i].transactionKey);
+          } else {
+            reject({ code: 404, message: 'Transaction Id not found' });
+          }
+        })
         .then(res => {
           if (res) {
             resolve(true);

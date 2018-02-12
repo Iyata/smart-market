@@ -29,6 +29,8 @@ export class ProductsComponent implements OnInit {
 
   categories = [];
 
+  user: any = {};
+
   constructor(
     public productsManager: ProductsManagementService,
     public categoriesManager: CategoriesManagementService
@@ -37,6 +39,9 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.listProducts();
     this.listCategories();
+
+    const userString = localStorage.getItem('user');
+    this.user = JSON.parse(userString);
   }
 
   listProducts() {

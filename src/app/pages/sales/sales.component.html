@@ -21,7 +21,7 @@
               <th>Selling Price</th>
               <th>Buyer's name</th>
               <th>Date</th>
-              <th>Edit</th>
+              <th *ngIf="user.role != 'management'">Edit</th>
             </tr>
           </thead>
           <tfoot>
@@ -32,7 +32,7 @@
               <th>Selling Price</th>
               <th>Buyer's name</th>
               <th>Date</th>
-              <th>Edit</th>
+              <th *ngIf="user.role != 'management'">Edit</th>
             </tr>
           </tfoot>
           <tbody>
@@ -43,7 +43,7 @@
               <td>{{sale.sellingPrice}}</td>
               <td>{{sale.buyerName}}</td>
               <td>{{sale.dateSold}}</td>
-              <td>
+              <td *ngIf="user.role != 'management'">
                 <button class="btn btn-link" data-toggle="modal" data-target="#salesModal" (click)="showEditModal(sale)">
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -56,7 +56,7 @@
   </div>
 </div>
 <!-- /.container-fluid-->
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#salesModal" (click)="showAddModal()">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#salesModal" (click)="showAddModal()" *ngIf="user.role != 'management'">
   <i class="fa fa-plus"></i>
 </button>
 
@@ -77,8 +77,8 @@
         <form *ngFor="let saleData of salesData; let i = index">
           <div class="form-group">
             <label>Choose a Product from the list:
-              <input type="search" class="form-control" list="products" id="productName" name="productName" #productName="ngModel" [(ngModel)]="salesData[i].productName"
-              />
+              <input type="search" class="form-control" list="products" id="productName{{i}}" name="productName" #productName="ngModel"
+                [(ngModel)]="salesData[i].productName" />
 
             </label>
 
@@ -104,7 +104,8 @@
           </div>
           <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" placeholder="Enter price" name="price" #price="ngModel" [(ngModel)]="salesData[i].sellingPrice">
+            <input type="number" class="form-control" id="price{{i}}" placeholder="Enter price" name="price" #price="ngModel" [(ngModel)]="salesData[i].sellingPrice"
+              readonly>
             <span class="cd-error" *ngIf="price.invalid && (price.dirty || price.touched)">Invalid field</span>
           </div>
           <div class="form-group">
