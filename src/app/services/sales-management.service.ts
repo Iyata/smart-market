@@ -32,6 +32,15 @@ export class SalesManagementService {
 
   public store(sales): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      const userString: any = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      if (user.role !== 'admin' && user.role !== 'team') {
+        return reject({
+          code: 403,
+          message: 'You do not have permission to perform this action'
+        });
+      }
+
       this.salesArray = sales;
       this.transactionId = this.randomString(6);
       this.i = 0;
@@ -64,14 +73,14 @@ export class SalesManagementService {
         .then(() => {
           return firebase.database().ref('sales/' + transactionId).push({
             productId: sale.productId,
-            name: sale.productName,
+            productName: sale.productName,
             quantity: sale.quantity,
-            sellingPrice: sale.price,
-            buyersName: sale.buyerName,
-            buyersPhone: sale.buyerPhone,
+            sellingPrice: sale.sellingPrice,
+            buyerName: sale.buyerName,
+            buyerPhone: sale.buyerPhone,
             dateSold: sale.dateSold,
-            dataCreated: (new Date).getTime(),
-            dataModified: (new Date).getTime()
+            dateCreated: (new Date).getTime(),
+            dateModified: (new Date).getTime()
           });
         })
         .then(() => {
@@ -86,17 +95,32 @@ export class SalesManagementService {
     });
   }
 
-  // public update(sale): Promise<boolean> {
-  //   return new Promise((resolve, reject) => {
-  //     firebase.database().ref('/sales/' + sale.id).set({
-  //       name: sale.name,
-  //       quantity: sale.quantity,
-  //       sellingPrice: sale.sellingPrice,
-  //       buyersName: sale.buyersName
-  //     })
-  //       .then(() => resolve(true))
-  //       .catch(error => reject(error));
-  //   });
-  // }
+  public update(sale): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const userString: any = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      if (user.role !== 'admin' && user.role !== 'team') {
+        return reject({
+          code: 403,
+          message: 'You do not have permission to perform this action'
+        });
+      }
+
+      console.log(sale);
+
+      firebase.database().ref('sales/' + sale.transactionKey + '/' + sale.saleKey).update({
+        productId: sale.productId,
+        productName: sale.productName,
+        quantity: sale.quantity,
+        sellingPrice: sale.sellingPrice,
+        buyerName: sale.buyerName,
+        buyerPhone: sale.buyerPhone,
+        dateSold: sale.dateSold,
+        dateModified: (new Date).getTime()
+      })
+        .then(() => resolve(true))
+        .catch(error => reject(error));
+    });
+  }
 
 }

@@ -34,14 +34,14 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>61</td>
+            <tr *ngFor="let returnedItem of returnedItem">
+              <td>{{returnedItem.transactionKey}}</td>
+              <td>{{returnedItem.productName}}</td>
+              <td>{{returnedItem.quantity}}</td>
+              <td>{{returnedItem.buyerName}}</td>
+              <td>{{returnedItem.dateReturned}}</td>
               <td>
-                <button class="btn btn-link">
+                <button class="btn btn-link" (click)="showEditModal(returnedItem)">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
@@ -53,11 +53,11 @@
   </div>
 </div>
 <!-- /.container-fluid-->
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal" (click)="showAddModal()">
   <i class="fa fa-plus"></i>
 </button>
 
-<!-- Sales modal -->
+<!-- Returns modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="returnsModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -68,22 +68,35 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <datalist id="products">
+          <option *ngFor="let product of products" id="{{product.key}}" value="{{product.name}}">
+        </datalist>
+        <form *ngFor="let returnData of returnsData; let i = index">
           <div class="form-group">
             <label for="transactionId">Transaction Id</label>
-            <input name="" type="text" class="form-control" name="transactionId" id="transactionId" />
+            <input name="" type="text" class="form-control" name="transactionId" id="transactionId" #transactionId="ngModel" [(ngModel)]="returnsData[i].transactionId"
+            />
+            <span class="cd-error" *ngIf="transactionId.invalid && (transactionId.dirty || transactionId.touched)">Invalid field</span>
           </div>
           <div class="form-group">
-            <label for="productName">Product Name</label>
-            <input name="" type="text" class="form-control" name="productName" id="productName" />
+            <label>Choose a Product from the list:
+              <input type="search" class="form-control" list="products" id="productName" name="productName" #productName="ngModel" [(ngModel)]="returnsData[i].productName"
+              />
+
+            </label>
+
+            <span class="cd-error" *ngIf="productName.invalid && (productName.dirty || productName.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="quantity">Quantity Returned</label>
-            <input name="" type="number" class="form-control" name="quantity" id="quantity" />
+            <input name="" type="number" class="form-control" name="quantity" id="quantity" #quantity="ngModel" [(ngModel)]="returnsData[i].quantity">
+            <span class="cd-error" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="dateReturned">Date Returned</label>
-            <input name="" type="date" class="form-control" id="dateReturned" placeholder="Enter date returned">
+            <input type="date" class="form-control" id="dateReturned" placeholder="Enter date returned" name="dateReturned" #dateReturned="ngModel"
+              [(ngModel)]="returnsData[i].dateReturned">
+            <span class="cd-error" *ngIf="dateReturned.invalid && (dateReturned.dirty || dateReturned.touched)">Invalid field</span>
           </div>
         </form>
       </div>

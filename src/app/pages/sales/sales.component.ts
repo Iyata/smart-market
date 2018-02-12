@@ -16,6 +16,18 @@ export class SalesComponent implements OnInit {
 
   salesData = [];
 
+  modalState = '';
+
+  saleModel = {
+    productId: '',
+    productName: '',
+    quantity: 0,
+    buyerName: '',
+    buyerPhone: '',
+    sellingPrice: 0,
+    dateSold: ''
+  };
+
   constructor(
     public productsManager: ProductsManagementService,
     public salesManager: SalesManagementService
@@ -36,20 +48,41 @@ export class SalesComponent implements OnInit {
         alert(err.message);
       });
 
+    this.listSales();
+  }
+
+  manageSale() {
+    if (this.modalState === 'add') {
+      this.makeSale();
+    }
+
+    if (this.modalState === 'edit') {
+      this.editSale();
+    }
+  }
+
+  showEditModal(sale) {
+    this.modalState = 'edit';
+    this.salesData = [];
+    this.salesData.push(sale);
+  }
+
+  showAddModal() {
+    this.modalState = 'add';
+    this.salesData = [];
     this.salesData.push({
       productName: '',
       productId: '',
       quantity: 0,
       buyerName: '',
       buyerPhone: '',
-      price: '',
+      sellingPrice: '',
       dateSold: ''
     });
-
-    this.listSales();
   }
 
   listSales() {
+    this.sales = [];
     this.salesManager.list()
       .then(sales => {
         // tslint:disable-next-line:forin
@@ -76,13 +109,26 @@ export class SalesComponent implements OnInit {
       quantity: 0,
       buyerName: '',
       buyerPhone: '',
-      price: '',
+      sellingPrice: '',
       dateSold: ''
     });
   }
 
   removeItem(i) {
     this.salesData.splice(i, 1);
+  }
+
+  editSale() {
+    const productId = $('option[value="' + this.salesData[0].productName + '"]').attr('id');
+    this.salesData[0].productId = productId;
+    this.salesManager.update(this.salesData[0])
+      .then(status => {
+        alert('Successful');
+        this.listSales();
+      })
+      .catch(err => {
+        alert(err.message);
+      });
   }
 
   makeSale() {

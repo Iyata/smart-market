@@ -38,13 +38,13 @@
           <tbody>
             <tr *ngFor="let sale of sales">
               <td>{{sale.transactionKey}}</td>
-              <td>{{sale.name}}</td>
+              <td>{{sale.productName}}</td>
               <td>{{sale.quantity}}</td>
               <td>{{sale.sellingPrice}}</td>
               <td>{{sale.buyerName}}</td>
               <td>{{sale.dateSold}}</td>
               <td>
-                <button class="btn btn-link" data-toggle="modal" data-target="#salesModal">
+                <button class="btn btn-link" data-toggle="modal" data-target="#salesModal" (click)="showEditModal(sale)">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
@@ -56,7 +56,7 @@
   </div>
 </div>
 <!-- /.container-fluid-->
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#salesModal">
+<button class="fab btn btn-primary" data-toggle="modal" data-target="#salesModal" (click)="showAddModal()">
   <i class="fa fa-plus"></i>
 </button>
 
@@ -98,13 +98,13 @@
           </div>
           <div class="form-group">
             <label for="buyerPhone">Buyer's phone number</label>
-            <input type="tel" class="form-control" id="buyerPhone" placeholder="Enter buyer's phone number" minlength="9" name="buyerPhone"
-              #buyerPhone="ngModel" [(ngModel)]="salesData[i].buyerPhone">
+            <input type="tel" class="form-control" id="buyerPhone" placeholder="Enter buyer's phone number" minlength="9" maxlength="15"
+              name="buyerPhone" #buyerPhone="ngModel" [(ngModel)]="salesData[i].buyerPhone">
             <span class="cd-error" *ngIf="buyerPhone.invalid && (buyerPhone.dirty || buyerPhone.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" placeholder="Enter price" name="price" #price="ngModel" [(ngModel)]="salesData[i].price">
+            <input type="number" class="form-control" id="price" placeholder="Enter price" name="price" #price="ngModel" [(ngModel)]="salesData[i].sellingPrice">
             <span class="cd-error" *ngIf="price.invalid && (price.dirty || price.touched)">Invalid field</span>
           </div>
           <div class="form-group">
@@ -113,15 +113,15 @@
             <span class="cd-error" *ngIf="dateSold.invalid && (dateSold.dirty || dateSold.touched)">Invalid field</span>
           </div>
           <div class="form-group">
-            <button class="btn btn-link" style="color:red" (click)="removeItem(i)">- Remove item</button>
+            <button class="btn btn-link" style="color:red" (click)="removeItem(i)" *ngIf="modalState === 'add'">- Remove item</button>
           </div>
         </form>
         <div class="form-group">
-          <button class="btn btn-link" id="addMore" (click)="addMore()">+ Add more items</button>
+          <button class="btn btn-link" id="addMore" (click)="addMore()" *ngIf="modalState === 'add'">+ Add more items</button>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="makeSale()">Add Sale</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="manageSale()">{{modalState == 'add'?'Add Sale':'Edit Sale'}}</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
