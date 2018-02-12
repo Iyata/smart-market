@@ -36,6 +36,7 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.listProducts();
+    this.listCategories();
   }
 
   listProducts() {
@@ -56,7 +57,11 @@ export class ProductsComponent implements OnInit {
   listCategories() {
     this.categoriesManager.list()
       .then(data => {
-        this.categories = data;
+        // tslint:disable-next-line:forin
+        for (const key in data) {
+          data[key].key = key;
+          this.categories.push(data[key]);
+        }
       })
       .catch(err => {
         alert(err.message);
