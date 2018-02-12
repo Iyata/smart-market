@@ -41,7 +41,7 @@
               <td>{{returnedItem.buyerName}}</td>
               <td>{{returnedItem.dateReturned}}</td>
               <td>
-                <button class="btn btn-link" (click)="showEditModal(returnedItem)">
+                <button class="btn btn-link" data-toggle="modal" data-target="#returnsModal" (click)="showEditModal(returnedItem)">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
@@ -74,7 +74,7 @@
         <form *ngFor="let returnData of returnsData; let i = index">
           <div class="form-group">
             <label for="transactionId">Transaction Id</label>
-            <input name="" type="text" class="form-control" name="transactionId" id="transactionId" #transactionId="ngModel" [(ngModel)]="returnsData[i].transactionId"
+            <input name="" type="text" class="form-control" name="transactionId" id="transactionId" #transactionId="ngModel" [(ngModel)]="returnsData[i].transactionKey"
             />
             <span class="cd-error" *ngIf="transactionId.invalid && (transactionId.dirty || transactionId.touched)">Invalid field</span>
           </div>

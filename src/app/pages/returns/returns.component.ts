@@ -95,6 +95,7 @@ export class ReturnsComponent implements OnInit {
             this.returns.push(returns[transactionKey][returnKey]);
           }
         }
+        console.log(this.returns);
       })
       .catch(err => {
         alert(err.message);

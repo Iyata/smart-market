@@ -34,7 +34,7 @@ export class ReturnsManagementService {
       this.returnsArray = returns;
       this.i = 0;
 
-      this.recursiveReturns(returns[this.i], returns.transactionKey)
+      this.recursiveReturns(returns[this.i], returns[this.i].transactionKey)
         .then(res => {
           if (res) {
             resolve(true);
