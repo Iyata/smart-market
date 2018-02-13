@@ -20,7 +20,12 @@ export class LoginComponent implements OnInit {
   isLoading = false;
 
   constructor(public authentication: AuthenticationService, private router: Router) {
-
+    this.authentication.isLoggedIn()
+      .then(status => {
+        if (status) {
+          router.navigateByUrl('/dashboard/products');
+        }
+      });
   }
 
   ngOnInit() {
