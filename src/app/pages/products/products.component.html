@@ -85,7 +85,7 @@
           <div class="form-group">
             <label for="desc">Description</label>
             <input type="text" class="form-control" id="desc" name="productDesc" placeholder="Enter Product Description" #productDesc="ngModel"
-              [(ngModel)]="productModel.desc" minlength="5" pattern="^\w+$">
+              [(ngModel)]="productModel.desc" minlength="3">
             <span class="cd-error" *ngIf="productDesc.invalid  && (productDesc.dirty || productDesc.touched)">Invalid field</span>
           </div>
           <div class="form-group">
