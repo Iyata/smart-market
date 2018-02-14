@@ -80,7 +80,7 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="productName">Product name</label>
+            <label for="productName">Product Name</label>
             <input type="text" class="form-control" id="productName" placeholder="Enter Product Name" name="productName" #productName="ngModel"
               [(ngModel)]="productModel.name" minlength="3" pattern="^[A-Za-z\s\d]+$" required>
             <span class="cd-error" *ngIf="productName.invalid  && (productName.dirty || productName.touched)">Invalid field</span>
