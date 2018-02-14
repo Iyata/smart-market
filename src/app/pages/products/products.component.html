@@ -15,6 +15,7 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
+              <th>S/N</th>
               <th>Name</th>
               <th>Description</th>
               <th>Quantity</th>
@@ -26,6 +27,7 @@
           </thead>
           <tfoot>
             <tr>
+              <th>S/N</th>
               <th>Name</th>
               <th>Description</th>
               <th>Quantity</th>
@@ -36,7 +38,8 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr *ngFor="let product of products">
+            <tr *ngFor="let product of products; let i=index">
+              <td>{{i}}</td>
               <td>{{product.name}}</td>
               <td>{{product.desc}}</td>
               <td>{{product.quantity}}</td>

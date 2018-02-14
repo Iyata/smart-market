@@ -92,6 +92,15 @@ export class ProductsComponent implements OnInit {
         this.isLoading = false;
         this.errMessage = err.message;
       });
+    // this.productModel = {
+    //   name: '',
+    //   desc: '',
+    //   quantity: 0,
+    //   costPrice: 0,
+    //   sellingPrice: 0,
+    //   category: '',
+    //   dateAdded: ''
+    // };
   }
 
   manageProduct() {
@@ -121,6 +130,15 @@ export class ProductsComponent implements OnInit {
         this.isLoading = false;
         this.errMessage = err.message;
       });
+    this.productModel = {
+      name: '',
+      desc: '',
+      quantity: 0,
+      costPrice: 0,
+      sellingPrice: 0,
+      category: '',
+      dateAdded: ''
+    };
   }
 
   deleteProduct(product) {
