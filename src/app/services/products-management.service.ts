@@ -18,6 +18,7 @@ export class ProductsManagementService {
         .then(snapshot => {
           // Loop through products and extract category ID
           snapshot.forEach((childSnapshot) => {
+            const productKey = childSnapshot.key;
             const product = childSnapshot.val();
             // Get Category Id
             const categoryId = product.category;
@@ -26,6 +27,7 @@ export class ProductsManagementService {
               .then(categories => {
                 // Set category name
                 product.category = categories.val().name;
+                product.key = productKey;
                 // Emit product
                 observer.next(product);
               })

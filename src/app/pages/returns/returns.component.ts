@@ -39,17 +39,15 @@ export class ReturnsComponent implements OnInit {
   ngOnInit() {
     this.products = [];
     this.productsManager.list()
-      .then(data => {
+      .subscribe(
+      product => {
         // tslint:disable-next-line:forin
-        for (const key in data) {
-          data[key].key = key;
-          console.log(data[key]);
-          this.products.push(data[key]);
-        }
-      })
-      .catch(err => {
+        this.products.push(product);
+      },
+      err => {
         alert(err.message);
-      });
+      }
+      );
 
     this.listReturns();
 
