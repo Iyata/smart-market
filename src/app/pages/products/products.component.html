@@ -12,7 +12,7 @@
       <i class="fa fa-table"></i> Products in stock</div>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>S/N</th>
@@ -39,12 +39,12 @@
           </tfoot>
           <tbody>
             <tr *ngFor="let product of products; let i=index">
-              <td>{{i + 1}}</td>
-              <td>{{product.name}}</td>
-              <td>{{product.desc}}</td>
-              <td>{{product.quantity}}</td>
-              <td>{{product.sellingPrice}}</td>
-              <td>{{product.category}}</td>
+              <td (click)="showProductDetails(product)">{{i + 1}}</td>
+              <td (click)="showProductDetails(product)">{{product.name}}</td>
+              <td (click)="showProductDetails(product)">{{product.desc}}</td>
+              <td (click)="showProductDetails(product)">{{product.quantity}}</td>
+              <td (click)="showProductDetails(product)">{{product.sellingPrice}}</td>
+              <td (click)="showProductDetails(product)">{{product.category}}</td>
               <td *ngIf="user.role != 'management'">
                 <button class="btn btn-link" data-toggle="modal" data-target="#productModal" (click)="showEditModal(product)">
                   <i class="fa fa-pencil"></i>
@@ -72,7 +72,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Product</h5>
+        <h5 class="modal-title" *ngIf="modalState == 'add'">Add Product</h5>
+        <h5 class="modal-title" *ngIf="modalState == 'edit'">Edit Product</h5>
+        <h5 class="modal-title" *ngIf="modalState == 'read'">VIew Product</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -82,54 +84,60 @@
           <div class="form-group">
             <label for="productName">Product Name</label>
             <input type="text" class="form-control" id="productName" placeholder="Enter Product Name" name="productName" #productName="ngModel"
-              [(ngModel)]="productModel.name" minlength="3" pattern="^[A-Za-z\s\d]+$" required>
+              [(ngModel)]="productModel.name" minlength="3" pattern="^[A-Za-z\s\d]+$" required [readOnly]="modalState =='read'">
             <span class="cd-error" *ngIf="productName.invalid  && (productName.dirty || productName.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="desc">Description</label>
             <input type="text" class="form-control" id="desc" name="productDesc" placeholder="Enter Product Description" #productDesc="ngModel"
-              [(ngModel)]="productModel.desc" minlength="3">
+              [(ngModel)]="productModel.desc" minlength="3" [readOnly]="modalState =='read'">
             <span class="cd-error" *ngIf="productDesc.invalid  && (productDesc.dirty || productDesc.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="quantity">Quantity</label>
             <input type="number" class="form-control" id="quantity" placeholder="Enter Product Quantity" min="0" name="quantity" #productQuantity="ngModel"
-              [(ngModel)]="productModel.quantity" required>
+              [(ngModel)]="productModel.quantity" required [readOnly]="modalState =='read'">
             <span class="cd-error" *ngIf="productQuantity.invalid  && (productQuantity.dirty || productQuantity.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="costPrice">Cost Price</label>
             <input type="number" class="form-control" id="costPrice" placeholder="Enter Cost Price" min="0" name="cost" #productCost="ngModel"
-              [(ngModel)]="productModel.costPrice" required>
+              [(ngModel)]="productModel.costPrice" required [readOnly]="modalState =='read'">
             <span class="cd-error" *ngIf="productCost.invalid  && (productCost.dirty || productCost.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="sellingPrice">Selling Price</label>
             <input type="number" class="form-control" id="sellingPrice" placeholder="Enter Selling Price" min="0" name="price" #productPrice="ngModel"
-              [(ngModel)]="productModel.sellingPrice" required>
+              [(ngModel)]="productModel.sellingPrice" required [readOnly]="modalState =='read'">
             <span class="cd-error" *ngIf="productPrice.invalid  && (productPrice.dirty || productPrice.touched)">Invalid field</span>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="modalState =='read'">
+            <label for="category">Category</label>
+            <input type="text" class="form-control" id="category" name="categoryName" #categoryName="ngModel" [(ngModel)]="productModel.category"
+              [readOnly]="modalState =='read'">
+            <span class="cd-error" *ngIf="productPrice.invalid  && (productPrice.dirty || productPrice.touched)">Invalid field</span>
+          </div>
+          <div class="form-group" [style.display]="modalState =='read'?'none':'block'">
             <label for="category">Category</label>
             <select class="custom-select" id="category" name="category" #productCategory="ngModel" [(ngModel)]="productModel.category"
               required>
-              <option *ngFor="let category of categories" value="{{category.name}}">{{category.name}}</option>
+              <option *ngFor="let category of categories" value="{{category.key}}">{{category.name}}</option>
             </select>
             <span class="cd-error" *ngIf="productCategory.invalid  && (productCategory.dirty || productCategory.touched)">Invalid field</span>
           </div>
           <div class="form-group">
             <label for="dateAdded">Date Added</label>
             <input type="date" class="form-control" id="dateAdded" placeholder="Enter date added" name="dateAdded" #productDateAdded="ngModel"
-              [(ngModel)]="productModel.dateAdded">
+              [(ngModel)]="productModel.dateAdded" [readOnly]="modalState =='read'">
             <span class="cd-error" *ngIf="productDateAdded.invalid && (productDateAdded.dirty || productDateAdded.touched)">Invalid field</span>
           </div>
           <div class="form-group" *ngIf="errMessage!=''">
-            <span class="cd-error">{{errMessage}}</span>
+            <span class="cd-error" [style.color]="errMessage == 'Successful!'?'green':'red'">{{errMessage}}</span>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" [disabled]="(productName.invalid) || (productDesc.invalid  && (productDesc.dirty || productDesc.touched)) || productQuantity.invalid || productCost.invalid || productPrice.invalid || productCategory.invalid || (productDateAdded.invalid && (productDateAdded.dirty || productDateAdded.touched))"
+        <button type="button" *ngIf="modalState != 'read'" class="btn btn-primary" [disabled]="(productName.invalid) || (productDesc.invalid  && (productDesc.dirty || productDesc.touched)) || productQuantity.invalid || productCost.invalid || productPrice.invalid || productCategory.invalid || (productDateAdded.invalid && (productDateAdded.dirty || productDateAdded.touched))"
           (click)="manageProduct()">{{modalState == 'add'?'Add Product':'Edit Product'}}
           <i *ngIf="isLoading" class="fa fa-spin fa-spinner"></i>
         </button>

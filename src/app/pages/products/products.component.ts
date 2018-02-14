@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsManagementService } from '../../services/products-management.service';
 import { CategoriesManagementService } from '../../services/categories-management.service';
 
+import * as firebase from 'firebase';
+
+declare var $: any;
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -42,21 +46,25 @@ export class ProductsComponent implements OnInit {
 
     const userString = localStorage.getItem('user');
     this.user = JSON.parse(userString);
+
   }
 
   listProducts() {
     this.products = [];
-    this.productsManager.list()
-      .then(data => {
-        // tslint:disable-next-line:forin
-        for (const key in data) {
-          data[key].key = key;
-          this.products.push(data[key]);
-        }
-      })
-      .catch(err => {
-        alert(err.message);
-      });
+    this.productsManager.list().subscribe(
+      product => {
+        this.products.push(product);
+      },
+      error => {
+
+      }
+    );
+  }
+
+  showProductDetails(product) {
+    this.modalState = 'read';
+    this.productModel = product;
+    $('#productModal').modal('show');
   }
 
   listCategories() {

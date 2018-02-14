@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase';
+import { Observable } from 'rxjs/Observable';
+
+// import {Observable} from 'rxjs/observable';
 
 @Injectable()
 export class ProductsManagementService {
@@ -8,13 +11,34 @@ export class ProductsManagementService {
   constructor() { }
 
 
-  public list(): Promise<any> {
-    return new Promise((resolve, reject) => {
+  public list(): Observable<any> {
+    return new Observable(observer => {
+      // Get all products from DB
       firebase.database().ref('products').once('value')
-        .then((snapshot) => {
-          resolve(snapshot.val());
+        .then(snapshot => {
+          // Loop through products and extract category ID
+          snapshot.forEach((childSnapshot) => {
+            const product = childSnapshot.val();
+            // Get Category Id
+            const categoryId = product.category;
+            // Get category details
+            firebase.database().ref('categories/' + categoryId).once('value')
+              .then(categories => {
+                // Set category name
+                product.category = categories.val().name;
+                // Emit product
+                observer.next(product);
+              })
+              .catch(err => {
+                observer.error(err);
+                observer.complete();
+              });
+          });
         })
-        .catch(error => reject(error));
+        .catch(err => {
+          observer.error(err);
+          observer.complete();
+        });
     });
   }
 
