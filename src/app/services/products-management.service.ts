@@ -56,7 +56,7 @@ export class ProductsManagementService {
 
       firebase.database().ref('products/' + product.key).set({
         name: product.name || '',
-        description: product.description || '',
+        description: product.desc || '',
         quantity: product.quantity || 0,
         costPrice: product.costPrice || 0,
         sellingPrice: product.sellingPrice || 0,

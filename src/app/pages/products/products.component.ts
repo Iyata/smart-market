@@ -10,7 +10,7 @@ import { CategoriesManagementService } from '../../services/categories-managemen
 export class ProductsComponent implements OnInit {
 
   productModel = {
-    name: 'Test',
+    name: '',
     desc: '',
     quantity: 0,
     costPrice: 0,
