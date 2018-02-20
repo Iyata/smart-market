@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
+import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ResetComponent } from './pages/reset/reset.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -76,6 +77,10 @@ const routes: Routes = [
   {
     path: 'reset',
     component: ResetComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: '',

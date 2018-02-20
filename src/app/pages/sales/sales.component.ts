@@ -6,7 +6,7 @@ declare var $: any;
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
-  styleUrls: ['./sales.component.css']
+  styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent implements OnInit {
 
@@ -39,13 +39,13 @@ export class SalesComponent implements OnInit {
     this.products = [];
     this.productsManager.list()
       .subscribe(
-      product => {
-        // tslint:disable-next-line:forin
-        this.products.push(product);
-      },
-      err => {
-        alert(err.message);
-      }
+        product => {
+          // tslint:disable-next-line:forin
+          this.products.push(product);
+        },
+        err => {
+          alert(err.message);
+        }
       );
 
     this.listSales();

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,9 +22,11 @@ import { ProductsManagementService } from './services/products-management.servic
 import { ReturnsManagementService } from './services/returns-management.service';
 import { SalesManagementService } from './services/sales-management.service';
 import { AuthGuard } from './guards/auth.guard';
+import { environment } from '../environments/environment';
 
 import * as firebase from 'firebase';
 import { LoadingComponent } from './components/loading/loading.component';
+import { LandingComponent } from './pages/landing/landing.component';
 
 const config = {
   apiKey: 'AIzaSyDWjZBpKhkE0Tu1XdZbOn7vF_tUqcaA2vE',
@@ -49,10 +52,12 @@ firebase.initializeApp(config);
     CategoriesComponent,
     ManageUsersComponent,
     ProfileComponent,
-    LoadingComponent
+    LoadingComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule

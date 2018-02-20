@@ -11,7 +11,10 @@ export class AuthenticationService {
   public login(user: { email: string, password: string }): Promise<boolean> {
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(user.email, user.password)
-        .then(() => resolve(true))
+        .then(() => {
+          this.isLoggedIn();
+          resolve(true)
+        })
         .catch(error => reject(error));
     });
   }
@@ -20,6 +23,7 @@ export class AuthenticationService {
     return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
           // User is signed in.
           resolve(true);
           // ...

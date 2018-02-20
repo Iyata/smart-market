@@ -7,7 +7,7 @@ declare var $: any;
 @Component({
   selector: 'app-returns',
   templateUrl: './returns.component.html',
-  styleUrls: ['./returns.component.css']
+  styleUrls: ['./returns.component.scss']
 })
 export class ReturnsComponent implements OnInit {
 
@@ -40,13 +40,13 @@ export class ReturnsComponent implements OnInit {
     this.products = [];
     this.productsManager.list()
       .subscribe(
-      product => {
-        // tslint:disable-next-line:forin
-        this.products.push(product);
-      },
-      err => {
-        alert(err.message);
-      }
+        product => {
+          // tslint:disable-next-line:forin
+          this.products.push(product);
+        },
+        err => {
+          alert(err.message);
+        }
       );
 
     this.listReturns();
