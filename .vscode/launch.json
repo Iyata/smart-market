@@ -9,7 +9,11 @@
       "request": "launch",
       "name": "ng-serve",
       "runtimeExecutable": "ng",
-      "args": ["serve"],
+      "args": [
+        "serve",
+        "--host",
+        "0.0.0.0"
+      ],
       "cwd": "${workspaceFolder}",
       "restart": true,
       "console": "externalTerminal"

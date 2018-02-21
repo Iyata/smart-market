@@ -25,7 +25,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { environment } from '../environments/environment';
 
 import * as firebase from 'firebase';
-import { LoadingComponent } from './components/loading/loading.component';
 import { LandingComponent } from './pages/landing/landing.component';
 
 const config = {
@@ -52,7 +51,6 @@ firebase.initializeApp(config);
     CategoriesComponent,
     ManageUsersComponent,
     ProfileComponent,
-    LoadingComponent,
     LandingComponent
   ],
   imports: [
