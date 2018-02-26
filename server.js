@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+const nodemailer = require('nodemailer');
+
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist'));
 

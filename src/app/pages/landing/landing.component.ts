@@ -8,6 +8,15 @@ declare let $: any;
 })
 export class LandingComponent implements OnInit {
 
+  contactUsModel = {
+    fullName: '',
+    email: '',
+    phone: '',
+    msg: ''
+  };
+
+  isLoading = false;
+
   constructor() { }
 
   ngOnInit() {
