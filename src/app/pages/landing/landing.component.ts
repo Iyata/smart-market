@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 declare let $: any;
 @Component({
@@ -12,12 +13,17 @@ export class LandingComponent implements OnInit {
     fullName: '',
     email: '',
     phone: '',
-    msg: ''
+    message: ''
   };
 
-  isLoading = false;
+  status = {
+    state: '',
+    message: ''
+  }
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   ngOnInit() {
     this.initializeUIElements();
@@ -90,6 +96,33 @@ export class LandingComponent implements OnInit {
     $('.navbar .navbar-toggler').on('click', function () {
       $(this).toggleClass('active');
     });
+  }
+
+  sendMail() {
+    this.status = {
+      state: 'loading',
+      message: ''
+    };
+
+    console.log(this.contactUsModel);
+
+    this.http.post('http://localhost:8080/contactus/mail', this.contactUsModel)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.status = {
+            state: 'success',
+            message: res.toString()
+          };
+        },
+        err => {
+          console.log(err);
+          this.status = {
+            state: 'error',
+            message: err.error
+          };
+        }
+      );
   }
 
 }
