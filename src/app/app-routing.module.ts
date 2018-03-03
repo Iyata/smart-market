@@ -15,85 +15,88 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
-
 const routes: Routes = [
   {
-    path: 'account',
+    path: 'admin/account',
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: 'profile',
-        component: ProfileComponent
-      }
-    ]
+        component: ProfileComponent,
+      },
+    ],
   },
   {
-    path: 'categories',
+    path: 'admin/categories',
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: '',
         component: CategoriesComponent,
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
   {
-    path: 'manage-users',
+    path: 'admin/manage-users',
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: '',
         component: ManageUsersComponent,
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
   {
-    path: 'dashboard',
+    path: 'admin/dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: 'products',
         component: ProductsComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'sales',
         component: SalesComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'returns',
         component: ReturnsComponent,
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
   {
-    path: 'reset',
-    component: ResetComponent
+    path: 'admin/reset',
+    component: ResetComponent,
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'admin/login',
+    component: LoginComponent,
+  },
+  {
+    path: 'admin',
+    component: LoginComponent,
   },
   {
     path: '',
-    component: LandingComponent
+    component: LandingComponent,
   },
   {
     path: '**',
-    component: LandingComponent
+    component: LandingComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -6,40 +6,40 @@ import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   loginModel = {
     email: '',
-    password: ''
+    password: '',
   };
 
   loginError = '';
 
   isLoading = false;
 
-  constructor(public authentication: AuthenticationService, private router: Router) {
-    this.authentication.isLoggedIn()
-      .then(status => {
-        if (status) {
-          router.navigateByUrl('/dashboard/products');
-        }
-      });
+  constructor(
+    public authentication: AuthenticationService,
+    private router: Router,
+  ) {
+    this.authentication.isLoggedIn().then(status => {
+      if (status) {
+        router.navigateByUrl('/dashboard/products');
+      }
+    });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   login() {
     this.loginError = '';
     this.isLoading = true;
-    this.authentication.login(this.loginModel)
+    this.authentication
+      .login(this.loginModel)
       .then(status => {
         this.isLoading = false;
         if (status) {
-          this.router.navigateByUrl('/dashboard/products');
+          this.router.navigateByUrl('/admin/dashboard/products');
         }
       })
       .catch(err => {
@@ -47,5 +47,4 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
 }

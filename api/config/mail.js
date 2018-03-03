@@ -1,14 +1,12 @@
 var nodemailer = require('nodemailer');
 
-
-
 if (process.env.MAIL_TYPE === 'gmail') {
   module.exports = nodemailer.createTransport({
-    service: 'Gmail',
+    service: 'gmail',
     auth: {
       user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD
-    }
+      pass: process.env.MAIL_PASSWORD,
+    },
   });
 } else {
   module.exports = nodemailer.createTransport({
@@ -17,7 +15,7 @@ if (process.env.MAIL_TYPE === 'gmail') {
     secure: process.env.MAIL_SECURITY,
     auth: {
       user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD
-    }
+      pass: process.env.MAIL_PASSWORD,
+    },
   });
 }
