@@ -7,17 +7,20 @@ declare var $: any;
 @Component({
   selector: 'app-returns',
   templateUrl: './returns.component.html',
-  styleUrls: ['./returns.component.scss']
+  styleUrls: ['./returns.component.scss'],
 })
 export class ReturnsComponent implements OnInit {
-
   products = [];
 
   returns = [];
 
+  itemSearched: string;
+
   returnsData = [];
 
   modalState = '';
+
+  filteredReturns = [];
 
   returnModel = {
     productId: '',
@@ -26,33 +29,46 @@ export class ReturnsComponent implements OnInit {
     buyerName: '',
     buyerPhone: '',
     sellingPrice: 0,
-    dateSold: ''
+    dateSold: '',
   };
 
   user: any = {};
 
   constructor(
     public productsManager: ProductsManagementService,
-    public returnsManager: ReturnsManagementService
-  ) { }
+    public returnsManager: ReturnsManagementService,
+  ) {}
 
   ngOnInit() {
     this.products = [];
-    this.productsManager.list()
-      .subscribe(
-        product => {
-          // tslint:disable-next-line:forin
-          this.products.push(product);
-        },
-        err => {
-          alert(err.message);
-        }
-      );
+    this.productsManager.list().subscribe(
+      product => {
+        // tslint:disable-next-line:forin
+        this.products.push(product);
+      },
+      err => {
+        alert(err.message);
+      },
+    );
 
     this.listReturns();
 
     const userString = localStorage.getItem('user');
     this.user = JSON.parse(userString);
+  }
+
+  filterItems(value) {
+    if (!value) {
+      this.refreshReturns(); // when nothing has typed
+    }
+
+    this.filteredReturns = Object.assign([], this.returns).filter(
+      item => item.dateSold.indexOf(value) > -1,
+    );
+  }
+
+  refreshReturns() {
+    this.filteredReturns = Object.assign([], this.returns);
   }
 
   manageReturns() {
@@ -81,13 +97,14 @@ export class ReturnsComponent implements OnInit {
       buyerName: '',
       buyerPhone: '',
       sellingPrice: '',
-      dateSold: ''
+      dateSold: '',
     });
   }
 
   listReturns() {
     this.returns = [];
-    this.returnsManager.list()
+    this.returnsManager
+      .list()
       .then(returns => {
         // tslint:disable-next-line:forin
         for (const transactionKey in returns) {
@@ -98,7 +115,7 @@ export class ReturnsComponent implements OnInit {
             this.returns.push(returns[transactionKey][returnKey]);
           }
         }
-        console.log(this.returns);
+        this.refreshReturns();
       })
       .catch(err => {
         alert(err.message);
@@ -106,7 +123,11 @@ export class ReturnsComponent implements OnInit {
   }
 
   addMore() {
-    const productId = $('option[value="' + this.returnsData[this.returnsData.length - 1].productName + '"]').attr('id');
+    const productId = $(
+      'option[value="' +
+        this.returnsData[this.returnsData.length - 1].productName +
+        '"]',
+    ).attr('id');
     this.returnsData[this.returnsData.length - 1].productId = productId;
     this.returnsData.push({
       productName: '',
@@ -115,7 +136,7 @@ export class ReturnsComponent implements OnInit {
       buyerName: '',
       buyerPhone: '',
       sellingPrice: '',
-      dateSold: ''
+      dateSold: '',
     });
   }
 
@@ -124,9 +145,12 @@ export class ReturnsComponent implements OnInit {
   }
 
   editReturn() {
-    const productId = $('option[value="' + this.returnsData[0].productName + '"]').attr('id');
+    const productId = $(
+      'option[value="' + this.returnsData[0].productName + '"]',
+    ).attr('id');
     this.returnsData[0].productId = productId;
-    this.returnsManager.update(this.returnsData[0])
+    this.returnsManager
+      .update(this.returnsData[0])
       .then(status => {
         alert('Successful');
         this.listReturns();
@@ -137,10 +161,15 @@ export class ReturnsComponent implements OnInit {
   }
 
   makeReturn() {
-    const productId = $('option[value="' + this.returnsData[this.returnsData.length - 1].productName + '"]').attr('id');
+    const productId = $(
+      'option[value="' +
+        this.returnsData[this.returnsData.length - 1].productName +
+        '"]',
+    ).attr('id');
     this.returnsData[this.returnsData.length - 1].productId = productId;
     console.log(this.returnsData);
-    this.returnsManager.store(this.returnsData)
+    this.returnsManager
+      .store(this.returnsData)
       .then(status => {
         alert('Successful');
         this.listReturns();
@@ -150,5 +179,4 @@ export class ReturnsComponent implements OnInit {
         alert(err.message);
       });
   }
-
 }

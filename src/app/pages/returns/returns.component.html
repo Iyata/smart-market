@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" style="margin-bottom:30px;">
   <!-- Breadcrumbs-->
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
@@ -6,104 +6,109 @@
     </li>
     <li class="breadcrumb-item active">Returns</li>
   </ol>
-  <!-- Example DataTables Card-->
   <div class="card mb-3">
-    <div class="card-header">
-      <i class="fa fa-table"></i> Goods returned</div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>Transaction Id</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Buyer's name</th>
-              <th>Date returned</th>
-              <th *ngIf="user.role != 'management'">Edit</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>Transaction Id</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Buyer's name</th>
-              <th>Date returned</th>
-              <th *ngIf="user.role != 'management'">Edit</th>
-            </tr>
-          </tfoot>
-          <tbody>
-            <tr *ngFor="let returnedItem of returns">
-              <td>{{returnedItem.transactionKey}}</td>
-              <td>{{returnedItem.productName}}</td>
-              <td>{{returnedItem.quantity}}</td>
-              <td>{{returnedItem.buyerName}}</td>
-              <td>{{returnedItem.dateReturned}}</td>
-              <td *ngIf="user.role != 'management'">
-                <button class="btn btn-link" data-toggle="modal" data-target="#returnsModal" (click)="showEditModal(returnedItem)">
-                  <i class="fa fa-pencil"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="card-header row">
+      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8" style="display:flex; align-items: center">
+        <i class="fa fa-table"></i> &nbsp; Returned items
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+        <input type="date" class="form-control" name="search" id="search" placeholder="Item name..." #myInput [(ngModel)]="itemSearched"
+          (input)="filterItems(myInput.value)">
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Transaction Id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Buyer's name</th>
+                <th>Date returned</th>
+                <th *ngIf="user.role != 'management'">Edit</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Transaction Id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Buyer's name</th>
+                <th>Date returned</th>
+                <th *ngIf="user.role != 'management'">Edit</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr *ngFor="let returnedItem of returns">
+                <td>{{returnedItem.transactionKey}}</td>
+                <td>{{returnedItem.productName}}</td>
+                <td>{{returnedItem.quantity}}</td>
+                <td>{{returnedItem.buyerName}}</td>
+                <td>{{returnedItem.dateReturned}}</td>
+                <td *ngIf="user.role != 'management'">
+                  <button class="btn btn-link" data-toggle="modal" data-target="#returnsModal" (click)="showEditModal(returnedItem)">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- /.container-fluid-->
-<button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal" (click)="showAddModal()" *ngIf="user.role != 'management'">
-  <i class="fa fa-plus"></i>
-</button>
+  <!-- /.container-fluid-->
+  <button class="fab btn btn-primary" data-toggle="modal" data-target="#returnsModal" (click)="showAddModal()" *ngIf="user.role != 'management'">
+    <i class="fa fa-plus"></i>
+  </button>
 
-<!-- Returns modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="returnsModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">New return</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <datalist id="products">
-          <option *ngFor="let product of products" id="{{product.key}}" value="{{product.name}}">
-        </datalist>
-        <form *ngFor="let returnData of returnsData; let i = index">
-          <div class="form-group">
-            <label for="transactionId">Transaction Id</label>
-            <input name="" type="text" class="form-control" name="transactionId" id="transactionId" #transactionId="ngModel" [(ngModel)]="returnsData[i].transactionKey"
-            />
-            <span class="cd-error" *ngIf="transactionId.invalid && (transactionId.dirty || transactionId.touched)">Invalid field</span>
-          </div>
-          <div class="form-group">
-            <label>Choose a Product from the list:
-              <input type="search" class="form-control" list="products" id="productName" name="productName" #productName="ngModel" [(ngModel)]="returnsData[i].productName"
+  <!-- Returns modal -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="returnsModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New return</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <datalist id="products">
+            <option *ngFor="let product of products" id="{{product.key}}" value="{{product.name}}">
+          </datalist>
+          <form *ngFor="let returnData of returnsData; let i = index">
+            <div class="form-group">
+              <label for="transactionId">Transaction Id</label>
+              <input name="" type="text" class="form-control" name="transactionId" id="transactionId" #transactionId="ngModel" [(ngModel)]="returnsData[i].transactionKey"
               />
+              <span class="cd-error" *ngIf="transactionId.invalid && (transactionId.dirty || transactionId.touched)">Invalid field</span>
+            </div>
+            <div class="form-group">
+              <label>Choose a Product from the list:
+                <input type="search" class="form-control" list="products" id="productName" name="productName" #productName="ngModel" [(ngModel)]="returnsData[i].productName"
+                />
 
-            </label>
+              </label>
 
-            <span class="cd-error" *ngIf="productName.invalid && (productName.dirty || productName.touched)">Invalid field</span>
-          </div>
-          <div class="form-group">
-            <label for="quantity">Quantity Returned</label>
-            <input name="" type="number" class="form-control" name="quantity" id="quantity" #quantity="ngModel" [(ngModel)]="returnsData[i].quantity">
-            <span class="cd-error" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">Invalid field</span>
-          </div>
-          <div class="form-group">
-            <label for="dateReturned">Date Returned</label>
-            <input type="date" class="form-control" id="dateReturned" placeholder="Enter date returned" name="dateReturned" #dateReturned="ngModel"
-              [(ngModel)]="returnsData[i].dateReturned">
-            <span class="cd-error" *ngIf="dateReturned.invalid && (dateReturned.dirty || dateReturned.touched)">Invalid field</span>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="manageReturns()">Return Item</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <span class="cd-error" *ngIf="productName.invalid && (productName.dirty || productName.touched)">Invalid field</span>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity Returned</label>
+              <input name="" type="number" class="form-control" name="quantity" id="quantity" #quantity="ngModel" [(ngModel)]="returnsData[i].quantity">
+              <span class="cd-error" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">Invalid field</span>
+            </div>
+            <div class="form-group">
+              <label for="dateReturned">Date Returned</label>
+              <input type="date" class="form-control" id="dateReturned" placeholder="Enter date returned" name="dateReturned" #dateReturned="ngModel"
+                [(ngModel)]="returnsData[i].dateReturned">
+              <span class="cd-error" *ngIf="dateReturned.invalid && (dateReturned.dirty || dateReturned.touched)">Invalid field</span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="manageReturns()">Return Item</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>

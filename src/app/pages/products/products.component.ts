@@ -9,10 +9,9 @@ declare var $: any;
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss']
+  styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
-
   productModel = {
     name: '',
     desc: '',
@@ -20,10 +19,14 @@ export class ProductsComponent implements OnInit {
     costPrice: 0,
     sellingPrice: 0,
     category: '',
-    dateAdded: ''
+    dateAdded: '',
   };
 
   products = [];
+
+  itemSearched: string;
+
+  filteredProducts = [];
 
   isLoading = false;
 
@@ -37,8 +40,8 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     public productsManager: ProductsManagementService,
-    public categoriesManager: CategoriesManagementService
-  ) { }
+    public categoriesManager: CategoriesManagementService,
+  ) {}
 
   ngOnInit() {
     this.listProducts();
@@ -49,15 +52,28 @@ export class ProductsComponent implements OnInit {
     console.log(this.user);
   }
 
+  filterItems(value) {
+    if (!value) {
+      this.refreshProducts(); // when nothing has typed
+    }
+
+    this.filteredProducts = Object.assign([], this.products).filter(
+      item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1,
+    );
+  }
+
+  refreshProducts() {
+    this.filteredProducts = Object.assign([], this.products);
+  }
+
   listProducts() {
     this.products = [];
     this.productsManager.list().subscribe(
       product => {
         this.products.push(product);
+        this.refreshProducts();
       },
-      error => {
-
-      }
+      error => {},
     );
   }
 
@@ -69,7 +85,8 @@ export class ProductsComponent implements OnInit {
 
   listCategories() {
     this.categories = [];
-    this.categoriesManager.list()
+    this.categoriesManager
+      .list()
       .then(data => {
         // tslint:disable-next-line:forin
         for (const key in data) {
@@ -89,7 +106,8 @@ export class ProductsComponent implements OnInit {
   addProduct() {
     this.errMessage = '';
     this.isLoading = true;
-    this.productsManager.store(this.productModel)
+    this.productsManager
+      .store(this.productModel)
       .then(status => {
         this.isLoading = false;
         this.errMessage = 'Successful!';
@@ -127,7 +145,8 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct() {
-    this.productsManager.update(this.productModel)
+    this.productsManager
+      .update(this.productModel)
       .then(status => {
         this.isLoading = false;
         this.errMessage = 'Successful!';
@@ -145,12 +164,13 @@ export class ProductsComponent implements OnInit {
       costPrice: 0,
       sellingPrice: 0,
       category: '',
-      dateAdded: ''
+      dateAdded: '',
     };
   }
 
   deleteProduct(product) {
-    this.productsManager.delete(product)
+    this.productsManager
+      .delete(product)
       .then(status => {
         this.isLoading = false;
         this.errMessage = 'Successful!';
@@ -162,5 +182,4 @@ export class ProductsComponent implements OnInit {
         this.errMessage = err.message;
       });
   }
-
 }

@@ -17,6 +17,7 @@ export class ProductsManagementService {
         .ref('products')
         .once('value')
         .then(snapshot => {
+          console.log(snapshot.val());
           // Loop through products and extract category ID
           snapshot.forEach(childSnapshot => {
             const productKey = childSnapshot.key;

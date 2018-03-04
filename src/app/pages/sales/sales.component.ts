@@ -6,13 +6,16 @@ declare var $: any;
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
-  styleUrls: ['./sales.component.scss']
+  styleUrls: ['./sales.component.scss'],
 })
 export class SalesComponent implements OnInit {
-
   products = [];
 
   sales = [];
+
+  itemSearched: string;
+
+  filteredSales = [];
 
   salesData = [];
 
@@ -25,33 +28,46 @@ export class SalesComponent implements OnInit {
     buyerName: '',
     buyerPhone: '',
     sellingPrice: 0,
-    dateSold: ''
+    dateSold: '',
   };
 
   user: any = {};
 
   constructor(
     public productsManager: ProductsManagementService,
-    public salesManager: SalesManagementService
-  ) { }
+    public salesManager: SalesManagementService,
+  ) {}
 
   ngOnInit() {
     this.products = [];
-    this.productsManager.list()
-      .subscribe(
-        product => {
-          // tslint:disable-next-line:forin
-          this.products.push(product);
-        },
-        err => {
-          alert(err.message);
-        }
-      );
+    this.productsManager.list().subscribe(
+      product => {
+        // tslint:disable-next-line:forin
+        this.products.push(product);
+      },
+      err => {
+        alert(err.message);
+      },
+    );
 
     this.listSales();
 
     const userString = localStorage.getItem('user');
     this.user = JSON.parse(userString);
+  }
+
+  filterItems(value) {
+    if (!value) {
+      this.refreshSales(); // when nothing has typed
+    }
+
+    this.filteredSales = Object.assign([], this.sales).filter(
+      item => item.dateSold.indexOf(value) > -1,
+    );
+  }
+
+  refreshSales() {
+    this.filteredSales = Object.assign([], this.sales);
   }
 
   manageSale() {
@@ -80,14 +96,15 @@ export class SalesComponent implements OnInit {
       buyerName: '',
       buyerPhone: '',
       sellingPrice: '',
-      dateSold: ''
+      dateSold: '',
     });
     this.getSellingPrice('0');
   }
 
   listSales() {
     this.sales = [];
-    this.salesManager.list()
+    this.salesManager
+      .list()
       .then(sales => {
         // tslint:disable-next-line:forin
         for (const transactionKey in sales) {
@@ -98,6 +115,7 @@ export class SalesComponent implements OnInit {
             this.sales.push(sales[transactionKey][saleKey]);
           }
         }
+        this.refreshSales();
       })
       .catch(err => {
         alert(err.message);
@@ -105,7 +123,11 @@ export class SalesComponent implements OnInit {
   }
 
   addMore() {
-    const productId = $('option[value="' + this.salesData[this.salesData.length - 1].productName + '"]').attr('id');
+    const productId = $(
+      'option[value="' +
+        this.salesData[this.salesData.length - 1].productName +
+        '"]',
+    ).attr('id');
     this.salesData[this.salesData.length - 1].productId = productId;
     this.salesData.push({
       productName: '',
@@ -114,7 +136,7 @@ export class SalesComponent implements OnInit {
       buyerName: '',
       buyerPhone: '',
       sellingPrice: '',
-      dateSold: ''
+      dateSold: '',
     });
     this.getSellingPrice((this.salesData.length - 1).toString());
   }
@@ -126,7 +148,7 @@ export class SalesComponent implements OnInit {
         console.log(this.salesData[i].productName);
         const opt = $('option[value="' + this.salesData[i].productName + '"]');
         if (opt.length) {
-          const newProducts = this.products.filter((product) => {
+          const newProducts = this.products.filter(product => {
             return product.key === opt.attr('id');
           });
           this.salesData[i].sellingPrice = newProducts[0].sellingPrice;
@@ -140,9 +162,12 @@ export class SalesComponent implements OnInit {
   }
 
   editSale() {
-    const productId = $('option[value="' + this.salesData[0].productName + '"]').attr('id');
+    const productId = $(
+      'option[value="' + this.salesData[0].productName + '"]',
+    ).attr('id');
     this.salesData[0].productId = productId;
-    this.salesManager.update(this.salesData[0])
+    this.salesManager
+      .update(this.salesData[0])
       .then(status => {
         alert('Successful');
         this.listSales();
@@ -153,10 +178,15 @@ export class SalesComponent implements OnInit {
   }
 
   makeSale() {
-    const productId = $('option[value="' + this.salesData[this.salesData.length - 1].productName + '"]').attr('id');
+    const productId = $(
+      'option[value="' +
+        this.salesData[this.salesData.length - 1].productName +
+        '"]',
+    ).attr('id');
     this.salesData[this.salesData.length - 1].productId = productId;
     console.log(this.salesData);
-    this.salesManager.store(this.salesData)
+    this.salesManager
+      .store(this.salesData)
       .then(status => {
         alert('Successful');
         this.listSales();
@@ -166,5 +196,4 @@ export class SalesComponent implements OnInit {
         alert(err.message);
       });
   }
-
 }
