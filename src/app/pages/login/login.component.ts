@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.authentication.isLoggedIn().then(status => {
       if (status) {
-        router.navigateByUrl('/dashboard/products');
+        router.navigateByUrl('/admin/dashboard/products');
       }
     });
   }
