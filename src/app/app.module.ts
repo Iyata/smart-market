@@ -34,11 +34,9 @@ const config = {
   databaseURL: 'https://smart-market-70906.firebaseio.com',
   projectId: 'smart-market-70906',
   storageBucket: 'smart-market-70906.appspot.com',
-  messagingSenderId: '249654525391'
+  messagingSenderId: '249654525391',
 };
 firebase.initializeApp(config);
-
-
 
 @NgModule({
   declarations: [
@@ -52,15 +50,17 @@ firebase.initializeApp(config);
     CategoriesComponent,
     ManageUsersComponent,
     ProfileComponent,
-    LandingComponent
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     AuthenticationService,
@@ -68,8 +68,8 @@ firebase.initializeApp(config);
     ProductsManagementService,
     ReturnsManagementService,
     SalesManagementService,
-    AuthGuard
+    AuthGuard,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

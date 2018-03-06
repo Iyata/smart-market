@@ -8,11 +8,13 @@ require('dotenv').config();
 
 const nodemailer = require('nodemailer');
 
+var firebaseConfig = require('./api/config/firebase-admin');
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
-    extended: false,
-  }),
+    extended: false
+  })
 );
 
 var routes = require('./api/routes/index');
@@ -24,7 +26,7 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header(
     'Access-Control-Allow-Headers',
-    'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+    'Authorization, Origin, X-Requested-With, Content-Type, Accept'
   );
   res.header('Access-Control-Allow-Credentials', true);
   if ('OPTIONS' == req.method) {

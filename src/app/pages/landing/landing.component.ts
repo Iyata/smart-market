@@ -6,19 +6,19 @@ declare let $: any;
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss'],
+  styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
   contactUsModel = {
     fullName: '',
     email: '',
     phone: '',
-    message: '',
+    message: ''
   };
 
   status = {
     state: '',
-    message: '',
+    message: ''
   };
 
   constructor(private http: HttpClient) {}
@@ -38,26 +38,26 @@ export class LandingComponent implements OnInit {
       nav: true,
       smartSpeed: 700,
       navText: [
-        "<i class='fa fa-angle-left'></i>",
-        "<i class='fa fa-angle-right'></i>",
+        '<i class="fa fa-angle-left"></i>',
+        '<i class="fa fa-angle-right"></i>'
       ],
       responsiveClass: true,
       responsive: {
         0: {
           items: 1,
           nav: false,
-          dots: true,
+          dots: true
         },
         600: {
           items: 1,
-          nav: true,
+          nav: true
         },
         1000: {
           items: 2,
           nav: true,
-          loop: false,
-        },
-      },
+          loop: false
+        }
+      }
     });
 
     // ------------------------------------------------------- //
@@ -71,14 +71,14 @@ export class LandingComponent implements OnInit {
     // Preventing URL update on navigation link click
     // ---------------------------------------------------------- //
     $('.link-scroll').on('click', function(e) {
-      let anchor = $(this);
+      const anchor = $(this);
       $('html, body')
         .stop()
         .animate(
           {
-            scrollTop: $(anchor.attr('href')).offset().top,
+            scrollTop: $(anchor.attr('href')).offset().top
           },
-          1000,
+          1000
         );
       e.preventDefault();
     });
@@ -88,7 +88,7 @@ export class LandingComponent implements OnInit {
     // ---------------------------------------------------------- //
     $('body').scrollspy({
       target: '#navbarSupportedContent',
-      offset: 80,
+      offset: 80
     });
 
     // ------------------------------------------------------- //
@@ -102,30 +102,30 @@ export class LandingComponent implements OnInit {
   sendMail() {
     this.status = {
       state: 'loading',
-      message: '',
+      message: ''
     };
 
     console.log(this.contactUsModel);
 
     this.http
       .post(`${environment.url}/api/contactus/mail`, this.contactUsModel, {
-        responseType: 'text',
+        responseType: 'text'
       })
       .subscribe(
         res => {
           console.log(res);
           this.status = {
             state: 'success',
-            message: res,
+            message: res
           };
         },
         err => {
           console.log(err);
           this.status = {
             state: 'error',
-            message: err.error,
+            message: err.error
           };
-        },
+        }
       );
   }
 }

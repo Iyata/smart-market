@@ -15,7 +15,8 @@ const contactUsMail = new EmailTemplate({
   views: {
     options: {
       extension: 'hbs'
-    }
+    },
+    root: './api/email'
   },
   preview: false,
   send: true

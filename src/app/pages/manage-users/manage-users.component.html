@@ -24,20 +24,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>2011/04/25</td>
-              <td>2011/04/25</td>
-              <td>2011/04/25</td>
+            <tr *ngFor="let user of users; let i = index">
+              <td>{{user.fullName}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.role}}</td>
+              <td>{{user.dateCreated | date}}</td>
+              <td>{{user.dateModified | date}}</td>
               <td>
-                <button class="btn btn-link">
+                <button class="btn btn-link" (click)="setUser(user)" data-toggle="modal" data-target="#editModal">
                   <i class="fa fa-pencil"></i>
                 </button>
               </td>
               <td>
-                <button class="btn btn-link">
-                  <i class="fa fa-trash"></i>
+                <button class="btn btn-link" (click)="deleteUser(user, 1000 + i)">
+                  <i class="fa fa-trash"></i> &nbsp;
+                  <i class="fa fa-spin fa-spinner" *ngIf="this.status.state == 'loading' && this.status.id == 1000 + i"></i>
                 </button>
               </td>
             </tr>
@@ -63,38 +64,98 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #addUser="ngForm">
           <div class="form-group">
             <label for="fullName">Full Name</label>
-            <input name="" type="text" class="form-control" id="fullName" placeholder="Enter full name">
+            <input name="fullName" type="text" minlength="3" pattern="[A-Za-z\s]+" class="form-control" id="fullName" #fullName="ngModel"
+              [(ngModel)]="userModel.fullName" placeholder="Enter full name">
+            <span class="cd-error" *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)">Please enter a valid full name</span>
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input name="" type="email" class="form-control" id="email" placeholder="Enter email address">
+            <input name="email" type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="form-control"
+              id="email" placeholder="Enter email address" #email="ngModel" [(ngModel)]="userModel.email">
+            <span class="cd-error" *ngIf="email.invalid && (email.dirty || email.touched)">Please enter a valid email address</span>
           </div>
           <div class="form-group">
             <label for="roles">Role</label>
-            <select class="custom-select" id="roles">
-              <option>User</option>
-              <option>Admin</option>
-              <option>Super Admin</option>
+            <select class="custom-select" id="roles" name="role" #role="ngModel" [(ngModel)]="userModel.role">
+              <option value="staff" selected>Staff</option>
+              <option value="team">Team</option>
+              <option value="admin">Admin</option>
+              <option value="management">Management</option>
             </select>
           </div>
           <div class="form-group">
             <label for="roles">Password</label>
-            <input name="" type="password" class="form-control" id="password" placeholder="Enter password">
+            <input name="password" #password="ngModel" [(ngModel)]="userModel.password" type="password" class="form-control" id="password"
+              placeholder="Enter password" minlength="6">
+            <span class="cd-error" *ngIf="password.invalid && (password.dirty || password.touched)">Minimum length of password is 6 characters</span>
           </div>
           <div class="form-group">
             <label for="roles">Confirm Password</label>
-            <input name="" type="password" class="form-control" id="confirmPassword" placeholder="Confirm password">
+            <input name="confirmPassword" #confirmPassword="ngModel" [(ngModel)]="userModel.confirmPassword" type="password" class="form-control"
+              id="confirmPassword" placeholder="Confirm password">
+            <span class="cd-error" *ngIf="this.userModel.password != this.userModel.confirmPassword && (confirmPassword.dirty || confirmPassword.touched)">Password mismatch</span>
           </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-link" id="addMore">+ Add a new user</button>
+
+          <div class="alert" *ngIf="this.status.state != 'loading' && this.status.id == 0" [class.alert-success]="status.state == 'success'"
+            [class.alert-danger]="status.state == 'error'">
+            {{status.message}}
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add User</button>
+        <button type="button" class="btn btn-primary" [disabled]="addUser.invalid" (click)="createUser()">Add User
+          <i class="fa fa-spin fa-spinner" *ngIf="this.status.state == 'loading' && this.status.id == 0"></i>
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Modification modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="editModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" class="form-control" id="editFullName" placeholder="Enter full name" name="editFullName" #editFullName="ngModel"
+              [(ngModel)]="editUserModel.fullName" readonly>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input name="" type="email" class="form-control" id="editEmail" placeholder="Enter email address" readonly name="editEmail"
+              #editEmail="ngModel" [(ngModel)]="editUserModel.email">
+          </div>
+          <div class="form-group">
+            <label for="roles">Role</label>
+            <select class="custom-select" id="editRole" name="editRole" #editRole="ngModel" [(ngModel)]="editUserModel.role">
+              <option value="staff" [selected]="editUserModel.role == 'staff'">Staff</option>
+              <option value="team" [selected]="editUserModel.role == 'team'">Team</option>
+              <option value="admin" [selected]="editUserModel.role == 'admin'">Admin</option>
+              <option value="management" [selected]="editUserModel.role == 'management'">Management</option>
+            </select>
+          </div>
+          <div class="alert" *ngIf="this.status.state != 'loading' && this.status.id == 1" [class.alert-success]="status.state == 'success'"
+            [class.alert-danger]="status.state == 'error'">
+            {{status.message}}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="changeRole()">Edit User
+          <i class="fa fa-spin fa-spinner" *ngIf="this.status.state == 'loading' && this.status.id == 1"></i>
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
