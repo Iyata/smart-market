@@ -27,6 +27,7 @@ import { environment } from '../environments/environment';
 
 import * as firebase from 'firebase';
 import { LandingComponent } from './pages/landing/landing.component';
+import { ReferralSignupComponent } from './pages/referral-signup/referral-signup.component';
 
 const config = {
   apiKey: 'AIzaSyDWjZBpKhkE0Tu1XdZbOn7vF_tUqcaA2vE',
@@ -51,6 +52,7 @@ firebase.initializeApp(config);
     ManageUsersComponent,
     ProfileComponent,
     LandingComponent,
+    ReferralSignupComponent,
   ],
   imports: [
     BrowserModule,

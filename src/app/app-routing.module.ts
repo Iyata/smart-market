@@ -12,6 +12,7 @@ import { ReturnsComponent } from './pages/returns/returns.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ReferralSignupComponent } from './pages/referral-signup/referral-signup.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -23,9 +24,9 @@ const routes: Routes = [
     children: [
       {
         path: 'profile',
-        component: ProfileComponent,
-      },
-    ],
+        component: ProfileComponent
+      }
+    ]
   },
   {
     path: 'admin/categories',
@@ -35,9 +36,9 @@ const routes: Routes = [
       {
         path: '',
         component: CategoriesComponent,
-        pathMatch: 'full',
-      },
-    ],
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: 'admin/manage-users',
@@ -47,9 +48,9 @@ const routes: Routes = [
       {
         path: '',
         component: ManageUsersComponent,
-        pathMatch: 'full',
-      },
-    ],
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: 'admin/dashboard',
@@ -59,44 +60,48 @@ const routes: Routes = [
       {
         path: 'products',
         component: ProductsComponent,
-        pathMatch: 'full',
+        pathMatch: 'full'
       },
       {
         path: 'sales',
         component: SalesComponent,
-        pathMatch: 'full',
+        pathMatch: 'full'
       },
       {
         path: 'returns',
         component: ReturnsComponent,
-        pathMatch: 'full',
-      },
-    ],
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: 'admin/reset',
-    component: ResetComponent,
+    component: ResetComponent
   },
   {
     path: 'admin/login',
-    component: LoginComponent,
+    component: LoginComponent
   },
   {
     path: 'admin',
-    component: LoginComponent,
+    component: LoginComponent
+  },
+  {
+    path: 'referral/signup',
+    component: ReferralSignupComponent
   },
   {
     path: '',
-    component: LandingComponent,
+    component: LandingComponent
   },
   {
     path: '**',
-    component: LandingComponent,
-  },
+    component: LandingComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

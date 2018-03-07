@@ -40,7 +40,7 @@ export class AuthenticationService {
       const userId = firebase.auth().currentUser.uid;
       firebase
         .database()
-        .ref('/users/' + userId)
+        .ref('users/' + userId)
         .once('value')
         .then(snapshot => {
           const user = snapshot.val();

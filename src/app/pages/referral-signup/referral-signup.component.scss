@@ -1,0 +1,42 @@
+.full-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  //   background: url(/assets/images/bg.jpg);
+  background-color: rgba(144, 85, 162, 1);
+}
+
+.signup-container {
+  position: relative;
+  width: 80%;
+  margin: 20px auto;
+  padding: 50px;
+  background: white;
+  z-index: 10;
+  h2 {
+    color: #625366;
+  }
+}
+
+.signup-logo {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.visible-large {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .visible-large {
+    display: block;
+  }
+
+  .signup-logo {
+    width: 20%;
+    margin: 0 auto;
+  }
+}

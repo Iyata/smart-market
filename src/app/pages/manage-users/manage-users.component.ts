@@ -108,15 +108,6 @@ export class ManageUsersComponent implements OnInit {
           };
         }
       );
-
-    this.userModel = {
-      fullName: '',
-      email: '',
-      role: '',
-      password: '',
-      confirmPassword: '',
-      idToken: ''
-    };
   }
 
   listUsers() {

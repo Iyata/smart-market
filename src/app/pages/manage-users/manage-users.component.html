@@ -38,7 +38,7 @@
               <td>
                 <button class="btn btn-link" (click)="deleteUser(user, 1000 + i)">
                   <i class="fa fa-trash"></i> &nbsp;
-                  <i class="fa fa-spin fa-spinner" *ngIf="this.status.state == 'loading' && this.status.id == 1000 + i"></i>
+                  <i class="fa fa-spin fa-spinner" *ngIf="status.state == 'loading' && status.id == 1000 + i"></i>
                 </button>
               </td>
             </tr>
@@ -96,10 +96,10 @@
             <label for="roles">Confirm Password</label>
             <input name="confirmPassword" #confirmPassword="ngModel" [(ngModel)]="userModel.confirmPassword" type="password" class="form-control"
               id="confirmPassword" placeholder="Confirm password">
-            <span class="cd-error" *ngIf="this.userModel.password != this.userModel.confirmPassword && (confirmPassword.dirty || confirmPassword.touched)">Password mismatch</span>
+            <span class="cd-error" *ngIf="userModel.password != userModel.confirmPassword && (confirmPassword.dirty || confirmPassword.touched)">Password mismatch</span>
           </div>
 
-          <div class="alert" *ngIf="this.status.state != 'loading' && this.status.id == 0" [class.alert-success]="status.state == 'success'"
+          <div class="alert" *ngIf="status.state != 'loading' && status.id == 0" [class.alert-success]="status.state == 'success'"
             [class.alert-danger]="status.state == 'error'">
             {{status.message}}
           </div>
@@ -107,7 +107,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" [disabled]="addUser.invalid" (click)="createUser()">Add User
-          <i class="fa fa-spin fa-spinner" *ngIf="this.status.state == 'loading' && this.status.id == 0"></i>
+          <i class="fa fa-spin fa-spinner" *ngIf="status.state == 'loading' && status.id == 0"></i>
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -146,7 +146,7 @@
               <option value="management" [selected]="editUserModel.role == 'management'">Management</option>
             </select>
           </div>
-          <div class="alert" *ngIf="this.status.state != 'loading' && this.status.id == 1" [class.alert-success]="status.state == 'success'"
+          <div class="alert" *ngIf="status.state != 'loading' && status.id == 1" [class.alert-success]="status.state == 'success'"
             [class.alert-danger]="status.state == 'error'">
             {{status.message}}
           </div>
@@ -154,7 +154,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="changeRole()">Edit User
-          <i class="fa fa-spin fa-spinner" *ngIf="this.status.state == 'loading' && this.status.id == 1"></i>
+          <i class="fa fa-spin fa-spinner" *ngIf="status.state == 'loading' && status.id == 1"></i>
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
