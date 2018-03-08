@@ -10,7 +10,7 @@ var randomString = length => {
 
 module.exports = {
   createUser: function (req, res) {
-    let refCode = `${req.body.firstName.substring(0,3)}#${randomString(4)}`;
+    // let refCode = `${req.body.firstName.substring(0,3)}#${randomString(4)}`;
 
     admin
       .auth()
@@ -31,7 +31,7 @@ module.exports = {
             phone: req.body.phone,
             contact: req.body.contact,
             uid: userRecord.uid,
-            refCode: refCode,
+            refCode: req.body.refCode,
             dateCreated: new Date().getTime(),
             dateModified: new Date().getTime()
           });
