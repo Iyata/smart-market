@@ -9,8 +9,8 @@ var randomString = length => {
 };
 
 module.exports = {
-  createUser: function (req, res) {
-    // let refCode = `${req.body.firstName.substring(0,3)}#${randomString(4)}`;
+  createUser: function(req, res) {
+    let refCode = `${req.body.firstName.substring(0, 3)}#${randomString(4)}`;
 
     admin
       .auth()
@@ -20,7 +20,6 @@ module.exports = {
         disabled: false
       })
       .then(userRecord => {
-
         return admin
           .database()
           .ref('referrals/' + userRecord.uid)
@@ -31,14 +30,24 @@ module.exports = {
             phone: req.body.phone,
             contact: req.body.contact,
             uid: userRecord.uid,
-            refCode: req.body.refCode,
+            refCode: refCode,
             dateCreated: new Date().getTime(),
             dateModified: new Date().getTime()
           });
       })
       .then(() => {
+        return admin
+          .database()
+          .ref(`activeTransactionCodes/${req.body.refCode}`)
+          .set({
+            code: randomString(7)
+          });
+      })
+      .then(() => {
         console.log('Successfully created new user');
-        return res.send(`Account creation successful. Your referral code is ${refCode}`);
+        return res.send(
+          `Account creation successful. Your referral code is ${refCode}`
+        );
       })
       .catch(error => {
         console.log('Error creating new user:', error);

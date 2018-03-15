@@ -17,7 +17,8 @@ app.use(
   })
 );
 
-var routes = require('./api/routes/index');
+var indexRoutes = require('./api/routes/index');
+var apiRoutes = require('./api/routes/api');
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist'));
 
@@ -37,7 +38,8 @@ app.use(function(req, res, next) {
 
 app.set('view engine', 'hbs');
 
-app.use('/api', routes);
+app.use('/', indexRoutes);
+app.use('/api/v1', apiRoutes);
 
 // ...
 // For all GET requests, send back index.html

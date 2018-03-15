@@ -75,7 +75,7 @@ export class ManageUsersComponent implements OnInit {
     const headers = new HttpHeaders();
     headers.set('Authorization', `Firebase ${this.userModel.idToken}`);
     this.http
-      .post(`${environment.url}/api/users`, this.userModel, {
+      .post(`${environment.url}/users`, this.userModel, {
         headers: new HttpHeaders({
           Authorization: `Firebase ${this.userModel.idToken}`
         }),
@@ -166,7 +166,7 @@ export class ManageUsersComponent implements OnInit {
     };
 
     this.http
-      .delete(`${environment.url}/api/users/${user.uid}`, {
+      .delete(`${environment.url}/users/${user.uid}`, {
         headers: new HttpHeaders({
           Authorization: `Firebase ${this.userModel.idToken}`
         }),

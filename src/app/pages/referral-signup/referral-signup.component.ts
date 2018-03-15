@@ -37,7 +37,7 @@ export class ReferralSignupComponent implements OnInit {
     };
 
     this.http
-      .post(`${environment.url}/api/referrals/account`, this.userModel, {
+      .post(`${environment.url}/api/v1/referrals/account`, this.userModel, {
         responseType: 'text'
       })
       .subscribe(

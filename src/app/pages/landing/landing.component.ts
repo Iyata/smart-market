@@ -108,7 +108,7 @@ export class LandingComponent implements OnInit {
     console.log(this.contactUsModel);
 
     this.http
-      .post(`${environment.url}/api/contactus/mail`, this.contactUsModel, {
+      .post(`${environment.url}/contactus/mail`, this.contactUsModel, {
         responseType: 'text'
       })
       .subscribe(
