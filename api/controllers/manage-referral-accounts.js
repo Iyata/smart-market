@@ -10,7 +10,9 @@ var randomString = length => {
 
 module.exports = {
   createUser: function(req, res) {
-    let refCode = `${req.body.firstName.substring(0, 3)}#${randomString(4)}`;
+    let refCode = `${req.body.firstName
+      .substring(0, 3)
+      .toLowerCase()}#${randomString(4)}`;
 
     admin
       .auth()
