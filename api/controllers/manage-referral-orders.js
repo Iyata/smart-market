@@ -28,11 +28,10 @@ module.exports = {
         //Get active transaction code
         return admin
           .database()
-          .ref(`activeTransactionCodes/${req.body.refCode}`)
+          .ref(`activeTransactionCodes/${req.body.referralCode}`)
           .once('value');
       })
       .then(snapshot => {
-        console.log(snapshot);
         //Create Order
         return admin
           .database()
