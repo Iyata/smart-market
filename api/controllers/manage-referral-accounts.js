@@ -40,7 +40,7 @@ module.exports = {
       .then(() => {
         return admin
           .database()
-          .ref(`activeTransactionCodes/${req.body.refCode}`)
+          .ref(`activeTransactionCodes/${refCode}`)
           .set({
             code: randomString(7)
           });
