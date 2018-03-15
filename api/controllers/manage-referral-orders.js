@@ -32,6 +32,11 @@ module.exports = {
           .once('value');
       })
       .then(snapshot => {
+        if (!snapshot.val())
+          throw {
+            statusCode: 404,
+            message: 'Invalid referral code'
+          };
         //Create Order
         return admin
           .database()
