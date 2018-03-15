@@ -16,7 +16,6 @@ export class ReferralSignupComponent implements OnInit {
     phone: '',
     contact: '',
     password: '',
-    refCode: '',
     confirmPassword: '',
     agreed: false
   };
@@ -55,7 +54,6 @@ export class ReferralSignupComponent implements OnInit {
             contact: '',
             password: '',
             confirmPassword: '',
-            refCode: '',
             agreed: false
           };
         },

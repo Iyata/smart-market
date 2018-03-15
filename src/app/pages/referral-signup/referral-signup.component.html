@@ -43,11 +43,11 @@
               minlength="11" maxlength="11" #phone="ngModel" [(ngModel)]="userModel.phone" required>
             <span class="cd-error" *ngIf="phone.invalid && (phone.dirty || phone.touched)">Specify a valid phone number</span>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <input type="text" class="form-control" name="refCode" id="refCode" placeholder="Referral Code (e.g. ADE#6434)" pattern="[A-Z#\d]+"
               minlength="8" maxlength="8" #refCode="ngModel" [(ngModel)]="userModel.refCode" required>
             <span class="cd-error" *ngIf="refCode.invalid && (refCode.dirty || refCode.touched)">Specify a valid Referral code</span>
-          </div>
+          </div> -->
           <div class="form-group">
             <textarea class="form-control" id="address" name="address" placeholder="Contact Address (Optional)" rows="3" minlength="3"
               #contactAddy="ngModel" [(ngModel)]="userModel.contact"></textarea>
